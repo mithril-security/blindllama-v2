@@ -1,0 +1,2 @@
+mithril-os/mkosi/rootfs/mkosi.skeleton/usr/local/bin/k3s filter=lfs diff=lfs merge=lfs -text
+mithril-os/mkosi/rootfs/mkosi.extra/var/k3s_images/k3s-airgap-images-amd64.tar.zst filter=lfs diff=lfs merge=lfs -text

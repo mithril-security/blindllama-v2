@@ -1,0 +1,12 @@
+#!/bin/bash
+
+set -e
+set -x
+
+cd /root/run.d
+
+systemctl enable --now k3s
+
+cp mycaddy.yaml /var/lib/rancher/k3s/server/manifests/
+
+cp deployment.yml /var/lib/rancher/k3s/server/manifests/

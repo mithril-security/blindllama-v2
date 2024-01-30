@@ -1,0 +1,11 @@
+[Unit]
+Description=Bind k3s images directory
+Before=k3s.service
+
+[Service]
+Type=oneshot
+RemainAfterExit=yes
+ExecStart=/bin/sh -c 'set -e; mkdir -p /var/lib/rancher/k3s/agent/images; mount --bind /var/k3s_images /var/lib/rancher/k3s/agent/images'
+
+[Install]
+WantedBy=multi-user.target

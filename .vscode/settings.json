@@ -1,0 +1,5 @@
+{
+    "python.testing.cwd": "${workspaceFolder}/client/client",
+    "python.testing.unittestEnabled": false,
+    "python.testing.pytestEnabled": true
+}

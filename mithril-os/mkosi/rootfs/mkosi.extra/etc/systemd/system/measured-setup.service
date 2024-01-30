@@ -1,0 +1,10 @@
+[Unit]
+Description=Mount data disk and run setup script
+After=network-online.target
+
+[Service]
+Type=oneshot
+ExecStart=/usr/bin/python3 /opt/measured_setup/main.py
+
+[Install]
+WantedBy=multi-user.target

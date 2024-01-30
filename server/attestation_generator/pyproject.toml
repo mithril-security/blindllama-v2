@@ -1,0 +1,16 @@
+[tool.poetry]
+name = "attestation-generator"
+version = "0.1.0"
+description = ""
+authors = ["Corentin Lauverjat <corentin.lauverjat@mithrilsecurity.io>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.11"
+cryptography = "^41.0.5"
+requests = "^2.31.0"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"

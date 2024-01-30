@@ -1,0 +1,15 @@
+steps:
+- name: 'debian:bookworm-slim'
+  args: ['/bin/bash', '/workspace/build_slsa.sh']
+- name: 'gcr.io/cloud-builders/docker'
+  args: [ 'build', '-t', 'europe-west1-docker.pkg.dev/amd-sev-356012/quickstart-docker-repo/blindllama-server-builder-output:latest', '.' ]
+  env:
+  - "DOCKER_BUILDKIT=1"
+images:
+- 'europe-west1-docker.pkg.dev/amd-sev-356012/quickstart-docker-repo/blindllama-server-builder-output:latest'
+options:
+  requestedVerifyOption: VERIFIED
+  # GCB default machine has only 2vCPU
+  # This switches to one with 8vCPU
+  # https://cloud.google.com/build/pricing
+  machineType: 'N1_HIGHCPU_8'

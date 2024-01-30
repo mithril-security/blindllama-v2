@@ -1,0 +1,2 @@
+# Sets model to be loaded into disk 
+model: "Llama-2-7b-hf"

@@ -1,0 +1,5 @@
+tmpfs /tmp tmpfs mode=1777,strictatime,nosuid,nodev,size=10% 0 0
+# no need to set up manually a tmpfs on /run since systemd already does it for us
+# tmpfs on /run type tmpfs (rw,nosuid,nodev,size=404848k,nr_inodes=819200,mode=755,inode64)
+tmpfs /var/lib/docker tmpfs mode=1777,strictatime,nosuid,nodev,size=10% 0 0
+tmpfs /var/lib/rancher tmpfs mode=1777,strictatime,nosuid,nodev,size=80% 0 0
