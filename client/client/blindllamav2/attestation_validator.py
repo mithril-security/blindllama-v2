@@ -10,7 +10,7 @@ from .attestation.verifier import VerifiedAttestationDocument
 
 @dataclass(frozen=True)
 class AttestationValidator:
-    """Class to validate attestation for Fluorite.
+    """Class to validate attestation for BlindLlamav2.
 
     The validator only supports a single baseline. If you need more complex
     validation you will need to implement your own validator.

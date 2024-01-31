@@ -4,7 +4,7 @@ from contextlib import contextmanager
 from .logging import log
 
 
-class FluoriteException(Exception):
+class BlindLlamav2Exception(Exception):
     """Generic AICert exception."""
 
     def __init__(self, message: str, *args: object) -> None:
@@ -12,15 +12,15 @@ class FluoriteException(Exception):
         super().__init__(self.message, *args)
 
 
-class FluoriteInvalidAttestationFormatException(FluoriteException):
-    """Fluorite attestation parsing error (json)."""
+class BlindLlamav2InvalidAttestationFormatException(BlindLlamav2Exception):
+    """BlindLlamav2 attestation parsing error (json)."""
 
     def __init__(self) -> None:
         self.message = f"Invalid attestation format\n"
         super().__init__(self.message)
 
 
-class FluoriteInvalidAttestationException(FluoriteException):
+class BlindLlamav2InvalidAttestationException(BlindLlamav2Exception):
     """Invalid attestation error."""
 
     def __init__(self, msg="") -> None:
@@ -30,9 +30,9 @@ class FluoriteInvalidAttestationException(FluoriteException):
 
 @contextmanager
 def log_errors_and_warnings():
-    """Context manager that intercepts Fluorite errors and warnings and that logs them.
+    """Context manager that intercepts BlindLlamav2 errors and warnings and that logs them.
 
-    Only errors that inherit from FluoriteClientException are caught.
+    Only errors that inherit from BlindLlamav2ClientException are caught.
     They are used to display a nice error message before cleanly exiting the program.
     All warnings are caught and logged (and the program continues).
 
@@ -46,7 +46,7 @@ def log_errors_and_warnings():
     """
     try:
         yield None
-    except FluoriteException as e:
+    except BlindLlamav2Exception as e:
         log.error(f"{e.message}")
         exit(1)
     finally:

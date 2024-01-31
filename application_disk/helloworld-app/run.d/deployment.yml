@@ -9,7 +9,7 @@ data:
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
-  name: fluorite
+  name: blindllamav2
   annotations:
     kubernetes.io/ingress.class: caddy
 spec:
@@ -21,18 +21,18 @@ spec:
         pathType: Prefix
         backend:
           service:
-            name: fluorite
+            name: blindllamav2
             port:
               number: 80
 ---
 kind: Service
 apiVersion: v1
 metadata:
-  name: fluorite
+  name: blindllamav2
 spec:
   type: ClusterIP
   selector:
-    app: fluorite
+    app: blindllamav2
   ports:
   - name: http
     protocol: TCP
@@ -42,21 +42,21 @@ spec:
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: fluorite
+  name: blindllamav2
   labels:
-    app: fluorite
+    app: blindllamav2
 spec:
   selector:
     matchLabels:
-      app: fluorite
+      app: blindllamav2
   template:
     metadata:
       labels:
-        app: fluorite
+        app: blindllamav2
     spec:
       restartPolicy: Always
       containers:
-        - name: fluorite
+        - name: blindllamav2
           image: docker.io/library/helloworld-http:latest
           imagePullPolicy: Never
           ports:
@@ -238,11 +238,11 @@ spec:
 apiVersion: networking.k8s.io/v1
 kind: NetworkPolicy
 metadata:
-  name: ingress-to-fluorite
+  name: ingress-to-blindllamav2
 spec:
   podSelector:
     matchLabels:
-      app: fluorite
+      app: blindllamav2
   ingress:
   - from:
     - namespaceSelector:

@@ -148,7 +148,7 @@ helloworld-appdisk:
     SAVE ARTIFACT disk.raw AS LOCAL local/application_disk.raw
 
 
-fluorite-appdisk:
+blindllamav2-appdisk:
     FROM +debian-systemd
 
     RUN apt install --assume-yes --no-install-recommends \
@@ -188,13 +188,13 @@ fluorite-appdisk:
     WORKDIR /workdir
 
     COPY application_disk/*.conf .
-    COPY application_disk/fluorite-app ./disk
+    COPY application_disk/blindllamav2-app ./disk
     COPY application_disk/model/ ./disk/model/
 
     COPY mithril-os/render_template ./render_template
     RUN pipx install render_template/
 
-    COPY application_disk/fluorite-app/*.yaml .
+    COPY application_disk/blindllamav2-app/*.yaml .
     COPY tritonRT/launch_script.sh ./disk
     COPY tritonRT/modify_configpb.sh.j2 .
     COPY tensorrtllm_backend/all_models/inflight_batcher_llm/ ./disk/inflight_batcher_llm/

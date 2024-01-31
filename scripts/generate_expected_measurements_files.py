@@ -23,7 +23,7 @@ golden_pcr4_azure = compute_golden_pcr4("local/os_disk.raw",target= Target.AZURE
 golden_measurements_azure = {
     'measurements':
         {
-            0: "d0d725f21ba5d701952888bcbc598e6dcef9aff4d1e03bb3606eb75368bab351",
+            0: "f3a7e99a5f819a034386bce753a48a73cfdaa0bea0ecfc124bedbf5a8c4799be",
             1: "3d458cfe55cc03ea1f443f1562beec8df51c75e14a9fcf9a7234a13f198e7969",
             2: "3d458cfe55cc03ea1f443f1562beec8df51c75e14a9fcf9a7234a13f198e7969",
             3: "3d458cfe55cc03ea1f443f1562beec8df51c75e14a9fcf9a7234a13f198e7969",
@@ -33,7 +33,7 @@ golden_measurements_azure = {
         }
 }
 
-with open("client/client/fluorite/security_config/measurements_azure.json", 'w') as json_file:
+with open("client/client/blindllamav2/security_config/measurements_azure.json", 'w') as json_file:
     json.dump(golden_measurements_azure, json_file, indent=4)
 
 golden_pcr4_qemu = compute_golden_pcr4("local/os_disk.raw",target= Target.QEMU)
@@ -51,5 +51,5 @@ golden_measurements_qemu = {
         }
 }
 
-with open("client/client/fluorite/security_config/measurements_qemu.json", 'w') as json_file:
+with open("client/client/blindllamav2/security_config/measurements_qemu.json", 'w') as json_file:
     json.dump(golden_measurements_qemu, json_file, indent=4)

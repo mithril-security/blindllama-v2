@@ -2,13 +2,13 @@ import json
 from pathlib import Path
 
 import pytest
-from fluorite.attestation import (
+from blindllamav2.attestation import (
     AttestationError,
     perform_remote_attestation_and_extract_webserver_ca,
 )
-from fluorite.attestation.tpm import ExpectedMeasurements
-from fluorite.attestation.verifier import PlatformKind
-from fluorite.attestation_validator import AttestationValidator
+from blindllamav2.attestation.tpm import ExpectedMeasurements
+from blindllamav2.attestation.verifier import PlatformKind
+from blindllamav2.attestation_validator import AttestationValidator
 
 ATTESTATION_ENDPOINT_BASE_URL = (
     "https://attestation-endpoint.api.cloud.mithrilsecurity.io"
@@ -163,7 +163,7 @@ def test_perform_remote_attestation_fail_application_disk_roothash(
 
 # def test_azure(override_config):
 #     webserver_rootca = retrieve_and_validate_attested_server_ca(
-#         fluorite._config.CONFIG.attestation_endpoint,
+#         blindllamav2._config.CONFIG.attestation_endpoint,
 #         expected_measurements=
 #     )
 
@@ -174,6 +174,6 @@ def test_perform_remote_attestation_fail_application_disk_roothash(
 #     session.verify = server_ca_crt_file.name
 
 #     # Test application endpoint
-#     r = session.get(fluorite._config.CONFIG.api_url)
+#     r = session.get(blindllamav2._config.CONFIG.api_url)
 #     r.raise_for_status()
 #     assert "HTTP Hello World" in r.text

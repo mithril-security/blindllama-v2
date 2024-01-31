@@ -49,7 +49,7 @@ echo "Uploaded application disk"
 echo "$APPLICATION_DISK_NAME"
 
 ## Create VM
-VM="FluoriteVM-$ID"
+VM="BlindLlamav2VM-$ID"
 
 az vm create \
     -g $AZ_RESOURCE_GROUP \
@@ -70,3 +70,6 @@ az network nsg rule create -g $AZ_RESOURCE_GROUP --nsg-name "$VM"NSG -n "AllowHT
 VMpublicIP=`az vm show -d -g $AZ_RESOURCE_GROUP -n $VM --query publicIps -o tsv`
 echo "VM's public IP: "
 echo $VMpublicIP
+
+./update_hosts_entry.sh $VMpublicIP "api.cloud.localhost"
+./update_hosts_entry.sh $VMpublicIP "attestation-endpoint.api.localhost"

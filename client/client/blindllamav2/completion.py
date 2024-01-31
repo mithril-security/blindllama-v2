@@ -29,7 +29,7 @@ class PromptRequest(BaseModel):
 
 
 class Client:
-    """A class to represent a connection to a Fluorite server."""
+    """A class to represent a connection to a BlindLlamav2 server."""
 
     def __init__(self, fetch_attestation_insecure) -> None:
         """Init the Client class.

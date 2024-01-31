@@ -1,7 +1,7 @@
 import os
 from dataclasses import dataclass, field
 
-from fluorite.attestation.verifier import PlatformKind
+from blindllamav2.attestation.verifier import PlatformKind
 
 from .logging import log
 
@@ -13,7 +13,7 @@ class FeatureFlags:
 
 @dataclass
 class Config:
-    """Configuration of Fluorite."""
+    """Configuration of BlindLlamav2."""
 
     target: PlatformKind = PlatformKind.AZURE_TRUSTED_LAUNCH  # qemu or azure
     attestation_endpoint_base_url: str = (
@@ -26,7 +26,7 @@ class Config:
 
 def warn_if_insecure_config(config: Config) -> bool:
     is_insecure = False
-    if config.target != "azure":
+    if config.target != PlatformKind.AZURE_TRUSTED_LAUNCH:
         log.warning(
             "Insecure config detected. Target is {config.target}, not 'azure'. "
         )

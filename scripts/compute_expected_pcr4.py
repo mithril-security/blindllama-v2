@@ -163,8 +163,6 @@ def compute_golden_pcr4(path_to_os_disk_image_file: str, target: Target):
             golden_pcr4 = simulate_pcr_extend([
                 ev_efi_action("Calling EFI Application from Boot Option"),
                 ev_separator_pcr256(),
-                ev_efi_action("Returning from EFI Application from Boot Option"),
-                ev_efi_action("Calling EFI Application from Boot Option"),
                 # EV_EFI_BOOT_SERVICES_APPLICATION with SHA256 authenticode of the UKI PE
                 hash_uki,
                 # EV_EFI_BOOT_SERVICES_APPLICATION with SHA256 authenticode of the linux kernel

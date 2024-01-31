@@ -3,7 +3,7 @@ import tempfile
 import yaml
 from pydantic.dataclasses import dataclass
 
-from fluorite.attestation.errors import AttestationError
+from blindllamav2.attestation.errors import AttestationError
 
 from ..utils import run_command
 from .tpm import Sha256BankPCRMeasurements

@@ -2,8 +2,8 @@ import tempfile
 
 import requests
 
-from fluorite import attestation
-from fluorite.attestation.attestation_retriever import AttestationValidatorProtocol
+from blindllamav2 import attestation
+from blindllamav2.attestation.attestation_retriever import AttestationValidatorProtocol
 
 
 class AttestedSession(requests.Session):

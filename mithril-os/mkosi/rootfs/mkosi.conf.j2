@@ -55,7 +55,7 @@ Packages=linux-image-cloud-amd64
          docker-compose-plugin
 
 Initrds=../initrd/image
-KernelCommandLine=console=ttyS0 systemd.volatile=overlay
+KernelCommandLine= {% if debug %} console=ttyS0 {% endif %} systemd.volatile=overlay
 #  rd.systemd.unit=emergency.target  
 
 [Validation]

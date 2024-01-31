@@ -1,5 +1,5 @@
 [tool.poetry]
-name = "fluorite"
+name = "blindllamav2"
 version = "0.1.3"
 description = ""
 authors = ["Mithril Security <contact@mithrilsecurity.io>"]
@@ -32,7 +32,7 @@ build-backend = "poetry.core.masonry.api"
 plugins = [
   "pydantic.mypy"
 ]
-files = "fluorite"
+files = "blindllamav2"
 check_untyped_defs = true
 # ignore_missing_imports = True
 

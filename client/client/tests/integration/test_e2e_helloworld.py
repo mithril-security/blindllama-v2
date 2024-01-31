@@ -2,14 +2,14 @@ import copy
 
 import pytest
 import requests
-from fluorite.attestation.attestation_retriever import (
+from blindllamav2.attestation.attestation_retriever import (
     AttestationValidatorProtocol,
     PlatformKind,
 )
-from fluorite.attestation.attested_session import AttestedSession
-from fluorite.attestation.errors import AttestationError
-from fluorite.attestation_validator import AttestationValidator
-from fluorite.security_config import (
+from blindllamav2.attestation.attested_session import AttestedSession
+from blindllamav2.attestation.errors import AttestationError
+from blindllamav2.attestation_validator import AttestationValidator
+from blindllamav2.security_config import (
     APPLICATION_DISK_ROOTHASH,
     EXPECTED_OS_MEASUREMENTS,
 )

@@ -1,6 +1,6 @@
-# Fluorite Server
+# BlindLlamav2 Server
 
-Some of the code required to build a Fluorite server are present as submodules.
+Some of the code required to build a BlindLlamav2 server are present as submodules.
 
 ## Update the submodules:
 This may take some time and will require sufficient storage as it will download the model weights from huggingface and clone the tensortllm_backend repo. 
@@ -23,10 +23,10 @@ earthly -i -P +mithril-os --OS_CONFIG='config.debug.yaml'
 ```
 A successful build will output the following artifacts:
 ```
-Artifact github.com/mithril-security/fluorite-server:main+mkosi/image output as local/initrd_image.cpio.zst
-Artifact github.com/mithril-security/fluorite-server:main+mkosi/image.manifest output as local/initrd.manifest
-Artifact github.com/mithril-security/fluorite-server:main+mkosi/image.manifest output as local/os_disk.manifest
-Artifact github.com/mithril-security/fluorite-server:main+mkosi/image.raw output as local/os_disk.raw
+Artifact github.com/mithril-security/blindllamav2-server:main+mkosi/image output as local/initrd_image.cpio.zst
+Artifact github.com/mithril-security/blindllamav2-server:main+mkosi/image.manifest output as local/initrd.manifest
+Artifact github.com/mithril-security/blindllamav2-server:main+mkosi/image.manifest output as local/os_disk.manifest
+Artifact github.com/mithril-security/blindllamav2-server:main+mkosi/image.raw output as local/os_disk.raw
 ```
 
 ## Build the application disk
@@ -59,7 +59,7 @@ This will create a folder called “**engines**” with the model engine in it.
 
 Set the model you want to run as the MODEL flag. The default model is llama2-7B and it is the only model included by default in this repo.
 ```
-earthly -i -P +fluorite-appdisk --MODEL="config-llama2-7B-hf.yaml"
+earthly -i -P +blindllamav2-appdisk --MODEL="config-llama2-7B-hf.yaml"
 ```
 
 ## Generating expected measurements from OS and application disks:
@@ -86,7 +86,7 @@ measurements_azure.json
 
 You can find them in the client directory at:
 
-*client/client/fluorite/security_config/*
+*client/client/blindllamav2/security_config/*
 
 The files contain the expected PCR register values for the registers 0, 1, 2, 3, 4, 12, and 13
 These measurements will be used by the client to compare against the attestation report/quote it receives from the server.
@@ -96,7 +96,7 @@ These measurements will be used by the client to compare against the attestation
 Create an application disk as mentioned above (**You do not need to rerun this command if you’ve already created the application disk**):
 
 ```
-earthly -i -P +fluorite-appdisk --MODEL="config-llama2-7B-hf.yaml"
+earthly -i -P +blindllamav2-appdisk --MODEL="config-llama2-7B-hf.yaml"
 ```
 
 Now we generate the disk roothash which the client will use to verify that the correct application disk is mounted on the VM.

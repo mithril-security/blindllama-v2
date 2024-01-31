@@ -2,8 +2,8 @@ import base64
 import json
 from pathlib import Path
 
-from fluorite.attestation.quote import Quote, hazmat_read_quote
-from fluorite.attestation.verifier import AttestationDocument
+from blindllamav2.attestation.quote import Quote, hazmat_read_quote
+from blindllamav2.attestation.verifier import AttestationDocument
 
 
 def test_hazmat_read_quote():
