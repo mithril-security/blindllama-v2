@@ -200,7 +200,7 @@ fluorite-appdisk:
     COPY tensorrtllm_backend/all_models/inflight_batcher_llm/ ./disk/inflight_batcher_llm/
     
     # Copy model engine created by running the launch_container_create_model_engine.sh script (required prerequisite before running earthly build)
-    COPY engines ./disk/engines
+    # COPY engines ./disk/engines
 
     #ARG MODEL_CONFIG="config-codellama.yaml"
     ARG MODEL="config-llama2-7B-hf.yaml"
@@ -210,7 +210,7 @@ fluorite-appdisk:
 
     #Sets the pre and post processing configuration and removes safetensor weights to reduce disk size
     #Converted weights are in the engines/1-gpu folder. We don't remove the original model folder because it contains the tokenizer model
-    RUN chmod +x modify_configpb.sh && ./modify_configpb.sh
+    # RUN chmod +x modify_configpb.sh && ./modify_configpb.sh
     
     COPY tensorrtllm_backend ./disk/tensorrtllm_backend
     COPY tensorrtllm_backend/scripts/launch_triton_server.py ./disk/
@@ -234,3 +234,9 @@ fluorite-appdisk:
     SAVE ARTIFACT application_disk_info.json AS LOCAL local/application_disk_info.json
     SAVE ARTIFACT disk.raw AS LOCAL local/application_disk.raw
 
+
+ci-release:
+    FROM scratch
+    COPY +blindllama-appdisk/* ./appdisk/
+    COPY +mithril-os/* ./mithril-os/
+    SAVE ARTIFACT ./* 
