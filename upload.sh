@@ -29,7 +29,7 @@ upload_disk () {
         --hyper-v-generation V2
 
     URL_ACCESS_SAS=`az disk grant-access -n $DISK_NAME -g $AZ_RESOURCE_GROUP --access-level Write --duration-in-seconds 86400 | jq -r '.accessSas'`
-    /home/azureuser/azcopy_linux_amd64_10.22.2/azcopy copy --blob-type PageBlob "local/$1.img.vhd" "$URL_ACCESS_SAS"
+    azcopy copy --blob-type PageBlob "local/$1.img.vhd" "$URL_ACCESS_SAS"
     az disk revoke-access -n $DISK_NAME -g $AZ_RESOURCE_GROUP
 }
 
