@@ -32,3 +32,4 @@ images:
 options:
   requestedVerifyOption: VERIFIED
   machineType: 'N1_HIGHCPU_32' 
+  diskSizeGb: '200GB' # To be modified for Cloudbuild 
