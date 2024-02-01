@@ -4,6 +4,7 @@ client/client/blindllamav2/security_config/*.json
 # Don't git the file generated with a template
 mithril-os/mkosi/initrd/mkosi.conf
 mithril-os/mkosi/rootfs/mkosi.conf
+engines
 
 
 upload_config.sh

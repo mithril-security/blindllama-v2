@@ -189,7 +189,8 @@ blindllamav2-appdisk:
 
     COPY application_disk/*.conf .
     COPY application_disk/blindllamav2-app ./disk
-    COPY application_disk/model/ ./disk/model/
+    ARG MODEL="gpt2-medium"
+    COPY application_disk/model/$MODEL ./disk/model/$MODEL
 
     COPY mithril-os/render_template ./render_template
     RUN pipx install render_template/
@@ -200,16 +201,13 @@ blindllamav2-appdisk:
     COPY tensorrtllm_backend/all_models/inflight_batcher_llm/ ./disk/inflight_batcher_llm/
     
     # Copy model engine created by running the launch_container_create_model_engine.sh script (required prerequisite before running earthly build)
-    COPY engines ./disk/engines
-
-    #ARG MODEL_CONFIG="config-codellama.yaml"
-    ARG MODEL="config-llama2-7B-hf.yaml"
+    COPY engines/$MODEL ./disk/engines/$MODEL
     
-    RUN /root/.local/bin/render_template "$MODEL" ./disk/run.d/deployment.yml.j2
-    RUN /root/.local/bin/render_template "$MODEL" ./modify_configpb.sh.j2
+    RUN /root/.local/bin/render_template $MODEL.yaml ./disk/run.d/deployment.yml.j2
+    RUN /root/.local/bin/render_template $MODEL.yaml ./modify_configpb.sh.j2
 
-    #Sets the pre and post processing configuration and removes safetensor weights to reduce disk size
-    #Converted weights are in the engines/1-gpu folder. We don't remove the original model folder because it contains the tokenizer model
+    # Sets the pre and post processing configuration and removes safetensor weights to reduce disk size
+    # Converted weights are in the engines/1-gpu folder. We don't remove the original model folder because it contains the tokenizer model
     RUN chmod +x modify_configpb.sh && ./modify_configpb.sh
     
     COPY tensorrtllm_backend ./disk/tensorrtllm_backend

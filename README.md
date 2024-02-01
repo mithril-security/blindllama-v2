@@ -19,7 +19,7 @@ Then, users can consume the Confidential AI service while having guarantees that
 
 More information about the security properties, the architecture, and the workflow can be found in our Whitepaper.
 
-In this quick tour, we will show how one can package a Kubernetes application to serve Llama 2 7b using TensorRT, prepare measurements to prove the model is served in an enclave, deploy it on Azure VMs with A100 and vTPMs, and finally consume the AI model with confidentiality.
+In this quick tour, we will show how one can package a Kubernetes application to serve either Llama 2 7b or GPT 2 using TensorRT, prepare measurements to prove the model is served in an enclave, deploy it on Azure VMs with A100 and vTPMs, and finally consume the AI model with confidentiality.
 
 ## Core concepts
 
@@ -51,9 +51,13 @@ Any changes to the disk will alter the root hash and, therefore, be detected.
 
 ### A - Model weights
 
-Triton with TensorRT requires the creation of a model engine that has the weights embedded in it. The following script will generate a model engine for Llama 2 7b (the only model in this repo).
+Triton with TensorRT requires the creation of a model engine that has the weights embedded in it. The following script will generate a model engine for Llama 2 7b.
 ```
 ./launch_container_create_model_engine.sh "Llama-2-7b-hf"
+```
+To create a model engine for GPT2-medium, use:
+```
+./launch_container_create_model_engine.sh "gpt2-medium"
 ```
 Note: The model engines are specific to the GPU they are generated on. If you use an A100 GPU to create the model engine, you must run the BlindLlama-v2 VM on a machine with an A100 GPU.
 
@@ -82,7 +86,11 @@ earthly -i -P +mithril-os --OS_CONFIG='config.yaml'
 This command will create an application disk with the Llama 2 7B model engine (generated earlier) included in it.
 
 ```
-earthly -i -P +blindllamav2-appdisk --MODEL="config-llama2-7B-hf.yaml"
+earthly -i -P +blindllamav2-appdisk --MODEL="Llama-2-7b-hf"
+```
+To create an application disk with GPT2-medium use:
+```
+earthly -i -P +blindllamav2-appdisk --MODEL="gpt2-medium"
 ```
 
 ### D - Network policy

@@ -8,3 +8,6 @@
 	path = tensorrtllm_backend
 	url = https://github.com/triton-inference-server/tensorrtllm_backend.git
 	branch = release/0.5.0
+[submodule "application_disk/model/gpt2-medium"]
+	path = application_disk/model/gpt2-medium
+	url = https://huggingface.co/openai-community/gpt2-medium
