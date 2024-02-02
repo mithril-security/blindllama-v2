@@ -28,8 +28,8 @@ docker tag caddy/ingress:latest ingress-controller:latest
 ./export_docker_image_as_targz.sh ingress-controller:latest images/blindllama
 
 # TODO: add triton image
-# docker pull nvcr.io/nvidia/tritonserver:23.10-trtllm-python-py3
-# ./export_docker_image_as_targz.sh nvcr.io/nvidia/tritonserver:23.10-trtllm-python-py3 images/blindllama
+docker pull nvcr.io/nvidia/tritonserver:23.10-trtllm-python-py3
+./export_docker_image_as_targz.sh nvcr.io/nvidia/tritonserver:23.10-trtllm-python-py3 images/blindllama
 
 
 earthly -a +blindllamav2-appdisk-without-images/ .tmp/blindllama-disk
