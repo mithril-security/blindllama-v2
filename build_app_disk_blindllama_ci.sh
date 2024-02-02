@@ -41,4 +41,4 @@ mkdir -p output/blindllama
 directory="output/blindllama"
 
 # Find all files in the directory and compute their SHA256 checksum
-( cd $directory && find "." -type f -exec sha256sum {} \; ) > output/DIGEST
+( cd $directory && find "." -type f -exec sha256sum {} \; ) > output/SHA256SUMS

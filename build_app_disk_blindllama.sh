@@ -2,7 +2,6 @@
 
 set -euxo pipefail
 
-echo "Adding container images to application disk..."
 
 tmpdir=".tmp/blindllama-disk-bis"
 outputdir="output/blindllama"
@@ -18,6 +17,18 @@ mkdir -p $outputdir
 # Copy the blindllama app disk content base
 cp -r .tmp/blindllama-disk/. $tmpdir
 
+
+echo "Copying model to application disk..."
+mkdir -p output/inputs
+( cd "prepared_model" && find "." -type f -exec sha256sum {} \; ) > output/inputs/PREPARED_MODEL.SHA256SUMS
+
+cp -al prepared_model/model $tmpdir/disk/
+cp -al prepared_model/engines $tmpdir/disk/
+
+echo "Finished copying model"
+
+
+echo "Adding container images to application disk..."
 mkdir $tmpdir/disk/container-images/
 
 # Hard links to avoid a copy 

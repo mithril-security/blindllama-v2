@@ -36,6 +36,7 @@ debian-systemd:
         zypper
     COPY update_systemd.sh .
     RUN bash update_systemd.sh
+    SAVE IMAGE debian-systemd
 
 mithril-os:
     FROM +debian-systemd

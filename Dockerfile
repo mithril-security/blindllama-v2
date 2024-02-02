@@ -1,7 +1,6 @@
 FROM scratch
 
-ADD mkosi/initrd/image /initrd/image.cpio.zst
-ADD mkosi/initrd/image.manifest /initrd/image.manifest
+# Copy SHA256SUMS of input and output artifacts
 
-ADD mkosi/rootfs/image /rootfs/image
-ADD mkosi/rootfs/image.manifest /rootfs/image.manifest
+COPY output/inputs/. inputs/
+COPY output/SHA256SUMS SHA256SUMS
