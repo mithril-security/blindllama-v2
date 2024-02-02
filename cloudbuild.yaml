@@ -1,17 +1,17 @@
 steps:
-  - name: gcr.io/cloud-builders/git
-    args: ['submodule', 'update', '--init', 'server/k8s-tpm-device-plugin', 'tensorrtllm_backend']
+  # - name: gcr.io/cloud-builders/git
+  #   args: ['submodule', 'update', '--init', 'server/k8s-tpm-device-plugin', 'tensorrtllm_backend']
   
   # Download the already converted LLama-7B model
   # All the downloaded files will be hashed and their SHA256
   # will be put in a MODEL.SHA256SUMS
-  - name: 'gcr.io/cloud-builders/gsutil'
-    entrypoint: /bin/sh
-    args: 
-    - '-c'
-    - |
-       mkdir prepared_model
-       gsutil cp -r "gs://vigilant-enigma/*" ./prepared_model/
+  # - name: 'gcr.io/cloud-builders/gsutil'
+  #   entrypoint: /bin/sh
+  #   args: 
+  #   - '-c'
+  #   - |
+  #      mkdir prepared_model
+  #      gsutil cp -r "gs://vigilant-enigma/*" ./prepared_model/
 
 
   # Step 1: Run a shell command to create a file named hello.txt with the content "helloworld"
@@ -19,10 +19,17 @@ steps:
   #   entrypoint: 'bash'
   #   args: ['-c', 'echo helloworld > hello.txt']
 
-  - id: "build-app-disk"
-    name: "earthly/earthly:v0.7.23"
-    entrypoint: /bin/sh
-    args: ["/workspace/build_app_disk_blindllama_ci.sh"]
+  # - id: "build-app-disk"
+  #   name: "earthly/earthly:v0.7.23"
+  #   entrypoint: /bin/sh
+  #   args: ["/workspace/build_app_disk_blindllama_ci.sh"]
+
+  - name: 'ubuntu'
+    script: |
+      #!/usr/bin/env bash
+      mkdir output
+      dd if=/dev/urandom of=output/randomfile bs=1M count=5120
+
 
   - id: "build-dummy-image-with-digest"
     name: "gcr.io/cloud-builders/docker"
@@ -33,6 +40,8 @@ steps:
         "europe-west1-docker.pkg.dev/amd-sev-356012/quickstart-docker-repo/blindllama-server-builder-output:latest",
         "."
       ]
+    env:
+      - "DOCKER_BUILDKIT=1"
   # - id: "build"
   #   name: "earthly/earthly:v0.7.23"
   #   args:
@@ -43,10 +52,10 @@ steps:
   #   env:
   #     - "HOME=/root"
 
-artifacts:
-  objects:
-    location: 'gs://example_image_push/blindllamav2-0.0.0/'
-    paths: ['output/blindllama/*']
+# artifacts:
+#   objects:
+#     location: 'gs://example_image_push/blindllamav2-0.0.0/'
+#     paths: ['output/blindllama/*']
 
 images:
   - "europe-west1-docker.pkg.dev/amd-sev-356012/quickstart-docker-repo/blindllama-server-builder-output:latest"
