@@ -46,10 +46,10 @@ steps:
   #   env:
   #     - "HOME=/root"
 
-# artifacts:
-#   objects:
-#     location: 'gs://example_image_push/blindllamav2-0.0.0/'
-#     paths: ['output/blindllama/*']
+artifacts:
+  objects:
+    location: 'gs://example_image_push/blindllamav2-0.0.0/'
+    paths: ['output/blindllama/*']
 
 images:
   - "europe-west1-docker.pkg.dev/amd-sev-356012/quickstart-docker-repo/blindllama-server-builder-output:latest"
