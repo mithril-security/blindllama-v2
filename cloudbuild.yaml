@@ -60,6 +60,7 @@ options:
   # This switches to one with 8/32vCPU
   # https://cloud.google.com/build/pricing
   machineType: 'E2_HIGHCPU_32'
+  diskSizeGb: '200'
 
 
 
