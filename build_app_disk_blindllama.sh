@@ -34,7 +34,7 @@ image_names=(
     "attestation-server-latest.tar.gz"
     "ingress-controller-latest.tar.gz"
     "k8s-tpm-device-plugin-image.tar.gz"
-    "nvcr-io-nvidia-tritonserver-23-10-trtllm-python-py3.tar.gz"
+    # "nvcr-io-nvidia-tritonserver-23-10-trtllm-python-py3.tar.gz"
     "nvidia-device-plugin-latest.tar.gz"
 )
 
