@@ -11,7 +11,7 @@ steps:
     - '-c'
     - |
        mkdir prepared_model
-       gsutil cp -r gs://vigilant-enigma/ ./prepared_model/
+       gsutil cp -r "gs://vigilant-enigma/*" ./prepared_model/
 
 
   # Step 1: Run a shell command to create a file named hello.txt with the content "helloworld"
