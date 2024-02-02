@@ -6,6 +6,3 @@ sed -i 's#${tokenizer_type}#auto#' ./disk/inflight_batcher_llm/postprocessing/co
 
 sed -i 's#${decoupled_mode}#false#' ./disk/inflight_batcher_llm/tensorrt_llm/config.pbtxt
 sed -i 's#${engine_dir}#/engines/1-gpu/#' ./disk/inflight_batcher_llm/tensorrt_llm/config.pbtxt
-
-rm ./disk/model/{{ model }}/*.safetensors
-rm ./disk/model/{{ model }}/*.bin

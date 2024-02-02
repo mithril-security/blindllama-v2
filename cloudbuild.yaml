@@ -1,15 +1,60 @@
 steps:
-- name: 'debian:bookworm-slim'
-  args: ['/bin/bash', '/workspace/build_slsa.sh']
-- name: 'gcr.io/cloud-builders/docker'
-  args: [ 'build', '-t', 'europe-west1-docker.pkg.dev/amd-sev-356012/quickstart-docker-repo/blindllama-server-builder-output:latest', '.' ]
-  env:
-  - "DOCKER_BUILDKIT=1"
+  - name: gcr.io/cloud-builders/git
+    args: ['submodule', 'update', '--init', 'server/k8s-tpm-device-plugin', 'tensorrtllm_backend']
+
+  # Step 1: Run a shell command to create a file named hello.txt with the content "helloworld"
+  # - name: 'ubuntu'
+  #   entrypoint: 'bash'
+  #   args: ['-c', 'echo helloworld > hello.txt']
+
+  - id: "build-app-disk"
+    name: "earthly/earthly:v0.7.23"
+    entrypoint: /bin/sh
+    args: ["/workspace/build_app_disk_blindllama_ci.sh"]
+
+  - id: "build-dummy-image-with-digest"
+    name: "gcr.io/cloud-builders/docker"
+    args:
+      [
+        "build",
+        "-t",
+        "europe-west1-docker.pkg.dev/amd-sev-356012/quickstart-docker-repo/blindllama-server-builder-output:latest",
+        "."
+      ]
+  # - id: "build"
+  #   name: "earthly/earthly:v0.7.23"
+  #   args:
+  #     - --allow-privileged
+  #     - --artifact
+  #     - +ci-release/* 
+  #     - ./earthly-target/
+  #   env:
+  #     - "HOME=/root"
+
+artifacts:
+  objects:
+    location: 'gs://example_image_push/blindllamav2-0.0.0/'
+    paths: ['output/blindllama/*']
+
 images:
-- 'europe-west1-docker.pkg.dev/amd-sev-356012/quickstart-docker-repo/blindllama-server-builder-output:latest'
+  - "europe-west1-docker.pkg.dev/amd-sev-356012/quickstart-docker-repo/blindllama-server-builder-output:latest"
+
 options:
   requestedVerifyOption: VERIFIED
   # GCB default machine has only 2vCPU
   # This switches to one with 8vCPU
   # https://cloud.google.com/build/pricing
-  machineType: 'N1_HIGHCPU_8'
+  machineType: 'E2_HIGHCPU_32'
+
+
+
+
+
+
+
+
+# artifacts:
+#   objects:
+#     location: 'gs://example_image_push'
+#     paths: ['']
+
