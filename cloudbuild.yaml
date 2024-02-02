@@ -1,12 +1,17 @@
 steps:
-  - name: gcr.io/cloud-builders/git
-    args: ['submodule', 'update', '--init', 'server/k8s-tpm-device-plugin', 'tensorrtllm_backend']
+  # - name: gcr.io/cloud-builders/git
+  #   args: ['submodule', 'update', '--init', 'server/k8s-tpm-device-plugin', 'tensorrtllm_backend']
   
   # Download the already converted LLama-7B model
   # All the downloaded files will be hashed and their SHA256
   # will be put in a MODEL.SHA256SUMS
   - name: 'gcr.io/cloud-builders/gsutil'
-    args: ['cp', '-r', 'gs://vigilant-enigma/', './prepared_model/']
+    entrypoint: /bin/sh
+    args: 
+    - '-c'
+    - |
+       mkdir prepared_model
+       cp -r gs://vigilant-enigma/ ./prepared_model/
 
 
   # Step 1: Run a shell command to create a file named hello.txt with the content "helloworld"
@@ -51,7 +56,7 @@ options:
   # GCB default machine has only 2vCPU
   # This switches to one with 8vCPU
   # https://cloud.google.com/build/pricing
-  machineType: 'E2_HIGHCPU_32'
+  # machineType: 'E2_HIGHCPU_32'
 
 
 
