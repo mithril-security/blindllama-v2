@@ -41,12 +41,12 @@ target_dir="$tmpdir/disk/container-images"
 
 # List of docker image names to be included in the disk
 image_names=(
-    "attestation-generator.tar.gz"
-    "attestation-server-latest.tar.gz"
-    "ingress-controller-latest.tar.gz"
-    "k8s-tpm-device-plugin-image.tar.gz"
-    "nvcr-io-nvidia-tritonserver-23-10-trtllm-python-py3.tar.gz"
-    "nvidia-device-plugin-latest.tar.gz"
+    "attestation-generator.tar"
+    "attestation-server-latest.tar"
+    "ingress-controller-latest.tar"
+    "k8s-tpm-device-plugin-image.tar"
+    "nvcr-io-nvidia-tritonserver-23-10-trtllm-python-py3.tar"
+    "nvidia-device-plugin-latest.tar"
 )
 
 # Loop over each image name and create a hard link

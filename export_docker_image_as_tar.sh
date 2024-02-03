@@ -6,7 +6,7 @@ set -euo pipefail
 # Check if an image name is provided
 if [ "$#" -ne 2 ]; then
     echo "Usage: $0 <docker-image-name> <destination_folder>"
-    echo "Example: ./export_docker_image_as_targz.sh strm/helloworld-http:latest images/helloworld"
+    echo "Example: ./export_docker_image_as_tar.sh strm/helloworld-http:latest images/helloworld"
     exit 1
 fi
 
@@ -33,11 +33,11 @@ fi
 
 # Compare the new hash with the previous hash
 if [ "$new_hash" != "$previous_hash" ]; then
-    echo "New image, exporting to $destination_folder/$filename.tar.gz"
-    # Save the Docker image and compress it
-    docker save $image_name | pigz > $destination_folder/$filename.tar.gz
+    echo "New image, exporting to $destination_folder/$filename.tar"
+    # Save the Docker image
+    docker save $image_name > $destination_folder/$filename.tar
     # Update the hash in the cache file
     echo "$new_hash" > "$hash_file"
 else
-    echo "No update needed. '$destination_folder/$filename.tar.gz' is up-to-date."
+    echo "No update needed. '$destination_folder/$filename.tar' is up-to-date."
 fi
