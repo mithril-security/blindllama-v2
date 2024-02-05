@@ -85,6 +85,53 @@ mithril-os:
     SAVE ARTIFACT image.manifest AS LOCAL local/os_disk.manifest
 
 
+mithril-os-ci:
+    FROM +debian-systemd
+
+    RUN apt install --assume-yes --no-install-recommends \
+        python3-pip python3-venv pipx
+    RUN pipx install git+https://github.com/systemd/mkosi.git@466851c60166954f5c185497486546d419ceaca3
+
+
+    RUN  apt-get install --assume-yes --no-install-recommends dosfstools cpio zstd
+    WORKDIR /workdir
+
+    COPY mithril-os/render_template ./render_template
+    RUN pipx install render_template/
+
+    COPY mithril-os/*.yaml .
+
+    ARG OS_CONFIG="config.yaml"
+    
+    WORKDIR /workdir/initrd
+    CACHE mkosi.cache
+    COPY mithril-os/mkosi/initrd .
+    RUN /root/.local/bin/render_template "../$OS_CONFIG" mkosi.conf.j2
+    
+    RUN --privileged /root/.local/bin/mkosi
+
+    SAVE ARTIFACT image AS LOCAL local/initrd_image.cpio.zst
+    SAVE ARTIFACT image.manifest AS LOCAL local/initrd.manifest
+
+    # RUN --privileged error
+
+    WORKDIR /workdir/rootfs
+    CACHE mkosi.cache
+
+    COPY mithril-os/mkosi/rootfs .
+    RUN /root/.local/bin/render_template "../$OS_CONFIG" mkosi.conf.j2
+    COPY mithril-os/measured_setup/* mkosi.extra/opt/measured_setup/
+
+    # RUN --privileged error
+
+    RUN --privileged /root/.local/bin/mkosi
+
+
+    # RUN  --privileged error
+
+    SAVE ARTIFACT image.raw AS LOCAL output/osdisk/os_disk.raw
+    SAVE ARTIFACT image.manifest AS LOCAL output/osdisk/os_disk.manifest
+
 attestation-generator-image:
     FROM DOCKERFILE server/attestation_generator
 

@@ -1,0 +1,28 @@
+steps:
+  - id: "build-os-disk"
+    name: "earthly/earthly:v0.7.23"
+    entrypoint: /bin/sh
+    args: ["/workspace/build_os_disk_ci.sh"]
+
+  - id: "build-dummy-image-with-digest"
+    name: "gcr.io/cloud-builders/docker"
+    args:
+      [
+        "build",
+        "-f",
+        "mithrilos.Dockerfile",
+        "-t",
+        "europe-west1-docker.pkg.dev/amd-sev-356012/quickstart-docker-repo/mithrilos-builder-output:latest",
+        "."
+      ]
+artifacts:
+  objects:
+    location: 'gs://example_image_push/mithrilos-0.0.0/'
+    paths: ['output/osdisk/*']
+
+images:
+  - "europe-west1-docker.pkg.dev/amd-sev-356012/quickstart-docker-repo/mithrilos-builder-output:latest"
+
+options:
+  requestedVerifyOption: VERIFIED
+  machineType: 'E2_HIGHCPU_32'
