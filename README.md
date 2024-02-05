@@ -190,7 +190,7 @@ pip install .
 
 Now, we can start consuming the previously deployed model.
 We provide an OpenAI-like interface to consume the model, but instead of using regular TLS, our framework performs attested TLS:
-```
+```python
 import blindllamav2
 
 response = blindllamav2.completion.create(
