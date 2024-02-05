@@ -93,8 +93,7 @@ attestation-generator-image:
 
 k8s-tpm-device-plugin-image:
     FROM DOCKERFILE server/k8s-tpm-device-plugin/
-    SAVE IMAGE k8s-tpm-device-plugin-image
-
+    SAVE IMAGE k8s-tpm-device-plugin
 
 helloworld-appdisk:
     FROM +debian-systemd

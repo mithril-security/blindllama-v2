@@ -16,7 +16,7 @@ docker tag halverneus/static-file-server:latest attestation-server:latest
 ./export_docker_image_as_tar.sh attestation-server:latest images/blindllama
 
 earthly +k8s-tpm-device-plugin-image
-./export_docker_image_as_tar.sh k8s-tpm-device-plugin-image images/blindllama
+./export_docker_image_as_tar.sh k8s-tpm-device-plugin images/blindllama
 
 docker pull nvcr.io/nvidia/k8s-device-plugin:v0.14.3
 docker tag nvcr.io/nvidia/k8s-device-plugin:v0.14.3 nvidia-device-plugin:latest
