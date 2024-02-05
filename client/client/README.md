@@ -19,8 +19,7 @@
     <b>Making AI Confidential & Transparent</b><br /><br />
 
 ## Prerequisite:
-You need to deploy a server running the Llama 2 model for the client to communicate with. 
-Instructions to do this are available in the “Deploying blindllamav2 server” document. 
+You need to deploy a BlindLlama-v2 server for the client to communicate with. 
 
 If you’ve already done this, you may proceed to the next step.
 
@@ -46,7 +45,7 @@ blindllamav2's client SDK is based on that of `openai` to facilitate uptake as e
 Our querying method `completion.create()` accepts six options `model`, `text_input`, `bad_words`, `stop_words`, `max_tokens` and `fetch_attestation_insecure` of which only `text_input` and `max_tokens` are compulsory. :
 
 - The `text_input` option is a string input containing your query input text. Feel free to modify the `text_input` option below to test the API with new prompts!
-- The `model` option allows you to select the model you wish to use and is set to Llama-2-7b by default. We currently only support this model, but will add more models in the near future.
+- The `model` option allows you to select the model you wish to use and is set to Llama-2-7b by default.
 - The `bad_words` option is a list of words that should be avoided in the output from the model.
 - The `stop_words` option is a list of words that should terminate the output when it occurs.
 - The `max_tokens` option is the maximum number of tokens in the output.

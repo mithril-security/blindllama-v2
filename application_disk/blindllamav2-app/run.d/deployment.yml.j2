@@ -65,7 +65,7 @@ spec:
           path: /dev/shm/model/{{ model }}
       - name: model-engine
         hostPath:
-          path: /engines/1-gpu
+          path: /engines/{{ model }}/1-gpu
       - name: batcher
         hostPath:
           path: /inflight_batcher_llm

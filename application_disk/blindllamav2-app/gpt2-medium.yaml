@@ -1,0 +1,2 @@
+# Sets model to be loaded into disk 
+model: "gpt2-medium"
