@@ -2,9 +2,9 @@ steps:
   - name: gcr.io/cloud-builders/git
     script: |
       #!/usr/bin/env bash
-      apt-get update && apt-get install -y git-lfs
-      git lfs install
-      git lfs pull
+      # apt-get update && apt-get install -y git-lfs
+      # git lfs install
+      git pull
 
   - id: "build-os-disk"
     name: "earthly/earthly:v0.7.23"
