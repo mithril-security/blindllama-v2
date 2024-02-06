@@ -33,7 +33,9 @@
 		"ghcr.io/devcontainers/features/azure-cli:1": {},
 		"ghcr.io/stuartleeks/dev-container-features/azure-cli-persistence:0": {},
 		"ghcr.io/dhoeric/features/google-cloud-cli:1": {},
-		"ghcr.io/joshuanianji/devcontainer-features/gcloud-cli-persistence:1": {}
+		"ghcr.io/joshuanianji/devcontainer-features/gcloud-cli-persistence:1": {},
+		"ghcr.io/devcontainers/features/go:1":{},
+		"ghcr.io/audacioustux/devcontainers/taskfile:1": {}
 	},
 	"runArgs": ["--device=/dev/kvm"],
 	// Features to add to the dev container. More info: https://containers.dev/features.

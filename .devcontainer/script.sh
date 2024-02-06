@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-set -ex
+set -euxo pipefail
 
 # Fix to solve the following az cli error
 # ```sh
@@ -39,6 +39,9 @@ echo '[ -z "${POETRY_ACTIVE}" ] || source $(poetry env info --path)/bin/activate
 
 pipx install --editable mithril-os/render_template/
 
+# Install sponge required for modify_configpb.sh
+sudo apt-get install -y moreutils
+
 # Enable use of the TPM on your machine
 sudo apt-get update
 sudo apt-get install -y tpm2-tools swtpm-tools
@@ -55,3 +58,12 @@ sudo /bin/sh -c 'wget https://github.com/earthly/earthly/releases/latest/downloa
 
 # Install azcopy
 sudo bash -c 'cd /usr/local/bin; curl -L https://aka.ms/downloadazcopy-v10-linux | tar --strip-components=1 --exclude=*.txt -xzvf -; chmod +x azcopy'
+
+# Add /go/bin to $PATH
+echo 'export PATH=/go/bin:$HOME/bin:/usr/local/bin:$PATH' >> ~/.zshrc
+
+# Install crane
+go install github.com/google/go-containerregistry/cmd/crane@latest
+
+# Install slsa-verifier
+go install github.com/slsa-framework/slsa-verifier/v2/cli/slsa-verifier@v2.4.1

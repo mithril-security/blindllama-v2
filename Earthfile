@@ -36,6 +36,7 @@ debian-systemd:
         zypper
     COPY update_systemd.sh .
     RUN bash update_systemd.sh
+    SAVE IMAGE debian-systemd
 
 mithril-os:
     FROM +debian-systemd
@@ -134,11 +135,12 @@ mithril-os-ci:
 
 attestation-generator-image:
     FROM DOCKERFILE server/attestation_generator
+    SAVE IMAGE attestation-generator
 
 
 k8s-tpm-device-plugin-image:
     FROM DOCKERFILE server/k8s-tpm-device-plugin/
-
+    SAVE IMAGE k8s-tpm-device-plugin
 
 helloworld-appdisk:
     FROM +debian-systemd
@@ -194,6 +196,44 @@ helloworld-appdisk:
     SAVE ARTIFACT application_disk_info.json AS LOCAL local/application_disk_info.json
     SAVE ARTIFACT disk.raw AS LOCAL local/application_disk.raw
 
+blindllamav2-appdisk-without-images:
+    FROM +debian-systemd
+
+    RUN apt install --assume-yes --no-install-recommends \
+        python3-pip python3-venv pipx moreutils
+
+    WORKDIR /workdir
+
+    COPY application_disk/*.conf .
+    COPY application_disk/blindllamav2-app ./disk
+    # COPY application_disk/model/ ./disk/model/
+
+    COPY mithril-os/render_template ./render_template
+    RUN pipx install render_template/
+
+    COPY application_disk/blindllamav2-app/*.yaml .
+    COPY tritonRT/launch_script.sh ./disk
+    COPY tritonRT/modify_configpb.sh .
+    COPY tensorrtllm_backend/all_models/inflight_batcher_llm/ ./disk/inflight_batcher_llm/
+    
+    # Copy model engine created by running the launch_container_create_model_engine.sh script (required prerequisite before running earthly build)
+    # COPY engines ./disk/engines
+
+    #ARG MODEL_CONFIG="config-codellama.yaml"
+    ARG MODEL="config-llama2-7B-hf.yaml"
+    ARG MODEL_NAME="Llama-2-7b-hf"
+    
+    RUN /root/.local/bin/render_template "$MODEL" ./disk/run.d/deployment.yml.j2
+
+    #Sets the pre and post processing configuration and removes safetensor weights to reduce disk size
+    #Converted weights are in the engines/1-gpu folder. We don't remove the original model folder because it contains the tokenizer model
+    RUN ./modify_configpb.sh $MODEL_NAME
+    
+    COPY tensorrtllm_backend ./disk/tensorrtllm_backend
+    COPY tensorrtllm_backend/scripts/launch_triton_server.py ./disk/
+
+    SAVE ARTIFACT ./*
+
 
 blindllamav2-appdisk:
     FROM +debian-systemd
@@ -244,14 +284,14 @@ blindllamav2-appdisk:
 
     COPY application_disk/blindllamav2-app/*.yaml .
     COPY tritonRT/launch_script.sh ./disk
-    COPY tritonRT/modify_configpb.sh.j2 .
+    COPY tritonRT/modify_configpb.sh .
     COPY tensorrtllm_backend/all_models/inflight_batcher_llm/ ./disk/inflight_batcher_llm/
     
     # Copy model engine created by running the launch_container_create_model_engine.sh script (required prerequisite before running earthly build)
     COPY engines/$MODEL ./disk/engines/$MODEL
     
     RUN /root/.local/bin/render_template $MODEL.yaml ./disk/run.d/deployment.yml.j2
-    RUN /root/.local/bin/render_template $MODEL.yaml ./modify_configpb.sh.j2
+    RUN ./modify_configpb.sh $MODEL
 
     # Sets the pre and post processing configuration and removes safetensor weights to reduce disk size
     # Converted weights are in the engines/1-gpu folder. We don't remove the original model folder because it contains the tokenizer model
