@@ -220,14 +220,13 @@ blindllamav2-appdisk-without-images:
     # COPY engines ./disk/engines
 
     #ARG MODEL_CONFIG="config-codellama.yaml"
-    ARG MODEL="config-llama2-7B-hf.yaml"
-    ARG MODEL_NAME="Llama-2-7b-hf"
+    ARG MODEL="Llama2-7B-hf"
     
-    RUN /root/.local/bin/render_template "$MODEL" ./disk/run.d/deployment.yml.j2
+    RUN /root/.local/bin/render_template "$MODEL.yaml" ./disk/run.d/deployment.yml.j2
 
     #Sets the pre and post processing configuration and removes safetensor weights to reduce disk size
     #Converted weights are in the engines/1-gpu folder. We don't remove the original model folder because it contains the tokenizer model
-    RUN ./modify_configpb.sh $MODEL_NAME
+    RUN ./modify_configpb.sh $MODEL
     
     COPY tensorrtllm_backend ./disk/tensorrtllm_backend
     COPY tensorrtllm_backend/scripts/launch_triton_server.py ./disk/
