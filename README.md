@@ -24,7 +24,7 @@ In this quick tour, we will show how one can package a Kubernetes application to
 ## Core concepts
 
 Trust in our enclaves is derived from 3 core principles:
-Transparency source: the code is open source 
+Transparency source: the code is open-source 
 Transparency build: the build is done using SLSA
 Transparency run time: the client verifies the server software identity through the measurements of the previously built source code in a transparent manner
 
@@ -155,7 +155,7 @@ curl -sL https://aka.ms/InstallAzureCLIDeb | sudo bash
 https://aka.ms/downloadazcopy-v10-linux
 ```
 
-Edit upload_config.sh with your Azure resource group and region where you want the disk to be created.
+Edit `upload_config.sh` with your Azure resource group and region where you want the disk to be created.
 ```sh
 ### Replace with your values
 AZ_RESOURCE_GROUP="my-resource-group"
@@ -166,14 +166,14 @@ Run the following script to upload the disks and create a VM.
 ```console
 ./upload.sh
 ```
-This script uploads the disks, creates a VM, adds DNS entries in the local machine’s /etc/hosts file, and creates a network rule in the Azure firewall to allow HTTPS requests into the VM. Note that these network rules are regular network rules. The network isolation policies to ensure data does not leave the enclaves are of the OS and k3s.
+This script uploads the disks, creates a VM, adds DNS entries in the local machine's /etc/hosts file, and creates a network rule in the Azure firewall to allow HTTPS requests into the VM. Note that these network rules are regular network rules. The network isolation policies to ensure data does not leave the enclaves are of the OS and k3s.
 
 The model is now up and running and can be queried while having guarantees it is deployed in a VM with no admin access and benefits from network isolation.
 
 ## 4 - Confidential consumption with attested TLS
 To consume the model securely, we provide a Python client SDK. This SDK will perform attestation by verifying the measurements of the enclave, ensuring they come from genuine vTPMs and that the measurements match the expected secure version of our code.
 
-These measurements are created in the client when the *./scripts/generate_security_config.py* and *./scripts/generate_expected_measurements_files.py* scripts are run. You can find the measurements in the client directory at *client/client/blindllamav2/security_config*
+These measurements are created in the client when the [generate_security_config.py](./scripts/generate_security_config.py) and [generate_expected_measurements_files.py](./scripts/generate_expected_measurements_files.py) scripts are run. You can find the measurements in the client directory at `client/client/blindllamav2/security_config`
 
 Once the attestation passes, we establish a TLS channel that ends up inside our enclave.
 
@@ -226,7 +226,7 @@ attestation_validator = AttestationValidator(
     expected_os_measurements=EXPECTED_OS_MEASUREMENTS[CONFIG.target],
 )
 
-# Creates a session with the obtaind TLS certificate from the server after validating server state
+# Creates a session with the obtained TLS certificate from the server after validating server state
 session = AttestedSession(
     api_url=CONFIG.api_url,
     attestation_endpoint_base_url=CONFIG.attestation_endpoint_base_url,
@@ -266,9 +266,9 @@ The host network is controlled by iptables rules. The exact rules are:
 -A INPUT -j DROP
 COMMIT
 ```
-In the repository they can be found under: *mithril-os/mkosi/rootfs/mkosi.extra/etc/iptables/rules.v4* and *mithril-os/mkosi/rootfs/mkosi.extra/etc/iptables/rules.v6*
+In the repository they can be found in [rules.v4](mithril-os/mkosi/rootfs/mkosi.extra/etc/iptables/rules.v4) and [rules.v6](mithril-os/mkosi/rootfs/mkosi.extra/etc/iptables/rules.v6)
 
-These rules block all incoming and outgoing traffic except for DNS queries and localhost connections. The rules are applied on boot by the iptables-persistent package. You can verify that the package is installed if you take a look at the mkosi.conf file present at *mithril-os/mkosi/rootfs/mkosi.conf.j2*
+These rules block all incoming and outgoing traffic except for DNS queries and localhost connections. The rules are applied on boot by the iptables-persistent package. You can verify that the package is installed if you take a look at the [mkosi.conf](mithril-os/mkosi/rootfs/mkosi.conf.j2) file.
 
 Similarly for k3s we set rules to allow incoming traffic only to the ingress controller which acts as reverse proxy. Outgoing traffic is also restricted to the reverse proxy. All other traffic not destined for or leaving from the reverse proxy is blocked.
 Rules are also in place to allow traffic from the reverse proxy to the appropriate container (either blindllamav2 or the attestation server).
@@ -361,6 +361,6 @@ spec:
         matchLabels:
           app.kubernetes.io/name: caddy-ingress-controller
 ```
-When the client tries to connect to the server it first retrieves the attestation report which is a quote from the TPM. The client uses the measurements stored in the security_config to validate the quote received from the TPM. 
+When the client tries to connect to the server it first retrieves the attestation report which is a quote from the TPM. The client uses the measurements stored in the `security_config` to validate the quote received from the TPM. 
 
 If there are any changes in the host networking rules, it will reflect in the PCR values (PCR 4) of the OS measurement and the connection will be terminated. If there are any changes in the k3s network policy, it will reflect in the application disk root hash measurement (PCR 15) and the connection will be terminated.
