@@ -1,0 +1,50 @@
+steps:
+  - name: gcr.io/cloud-builders/git
+    args: ['submodule', 'update', '--init', 'server/k8s-tpm-device-plugin', 'tensorrtllm_backend']
+  
+  # Download the already converted LLama-7B model
+  # All the downloaded files will be hashed and their SHA256
+  # will be put in a MODEL.SHA256SUMS
+  - name: 'gcr.io/cloud-builders/gsutil'
+    entrypoint: /bin/sh
+    args: 
+    - '-c'
+    - |
+       mkdir prepared_model
+       gsutil cp -r "gs://vigilant-enigma/*" ./prepared_model/
+
+  - id: "build-app-disk"
+    name: "earthly/earthly:v0.7.23"
+    entrypoint: /bin/sh
+    args: ["/workspace/build_app_disk_blindllama_ci.sh"]
+
+
+  - id: "build-dummy-image-with-digest"
+    name: "gcr.io/cloud-builders/docker"
+    args:
+      [
+        "build",
+        "-f",
+        "appdisk.Dockerfile",
+        "-t",
+        "europe-west1-docker.pkg.dev/amd-sev-356012/quickstart-docker-repo/blindllama-server-builder-output:latest",
+        "."
+      ]
+    env:
+      - "DOCKER_BUILDKIT=1"
+
+artifacts:
+  objects:
+    location: 'gs://example_image_push/appdisk-0.0.0/'
+    paths: ['output/blindllama/*']
+
+images:
+  - "europe-west1-docker.pkg.dev/amd-sev-356012/quickstart-docker-repo/blindllama-server-builder-output:latest"
+
+options:
+  requestedVerifyOption: VERIFIED
+  # GCB default machine has only 2vCPU
+  # This switches to one with 8/32vCPU
+  # https://cloud.google.com/build/pricing
+  machineType: 'E2_HIGHCPU_8'
+  diskSizeGb: '300'
