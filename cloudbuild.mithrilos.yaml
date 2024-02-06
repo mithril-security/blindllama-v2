@@ -1,4 +1,10 @@
 steps:
+  - name: gcr.io/cloud-builders/git
+    script: |
+      #!/usr/bin/env bash
+      apt-get update && apt-get install -y git-lfs
+      git lfs pull
+
   - id: "build-os-disk"
     name: "earthly/earthly:v0.7.23"
     entrypoint: /bin/sh
@@ -25,4 +31,4 @@ images:
 
 options:
   requestedVerifyOption: VERIFIED
-  machineType: 'E2_HIGHCPU_32'
+  # machineType: 'E2_HIGHCPU_32'
