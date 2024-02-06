@@ -220,10 +220,10 @@ blindllamav2-appdisk-without-images:
     # COPY engines ./disk/engines
 
     #ARG MODEL_CONFIG="config-codellama.yaml"
-    ARG MODEL="Llama2-7B-hf"
+    ARG MODEL="Llama-2-7b-hf"
     
     RUN /root/.local/bin/render_template "$MODEL.yaml" ./disk/run.d/deployment.yml.j2
-
+    
     #Sets the pre and post processing configuration and removes safetensor weights to reduce disk size
     #Converted weights are in the engines/1-gpu folder. We don't remove the original model folder because it contains the tokenizer model
     RUN ./modify_configpb.sh $MODEL

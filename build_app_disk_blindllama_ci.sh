@@ -32,7 +32,7 @@ docker pull nvcr.io/nvidia/tritonserver:23.10-trtllm-python-py3
 ./export_docker_image_as_tar.sh nvcr.io/nvidia/tritonserver:23.10-trtllm-python-py3 images/blindllama
 
 
-earthly -a +blindllamav2-appdisk-without-images/ .tmp/blindllama-disk
+earthly -a +blindllamav2-appdisk-without-images/ --MODEL='Llama-2-7b-hf' .tmp/blindllama-disk
 
 bash build_app_disk_blindllama.sh
 rm -rf images .tmp/
