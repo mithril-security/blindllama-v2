@@ -1,11 +1,14 @@
 steps:
-  - name: gcr.io/cloud-builders/git
-    script: |
-      #!/usr/bin/env bash
-      # apt-get update && apt-get install -y git-lfs
-      # git lfs install
-      git pull
-
+  # - name: gcr.io/cloud-builders/git
+  #   script: |
+  #     #!/usr/bin/env bash
+  #     # apt-get update && apt-get install -y git-lfs
+  #     # git lfs install
+  #     git pull
+  - name: 'gcr.io/google.com/cloudsdktool/cloud-sdk:alpine'
+    entrypoint: 'git'
+    args: ['clone', 'https://github.com/mithril-security/blindllama-v2.git']
+  
   - id: "build-os-disk"
     name: "earthly/earthly:v0.7.23"
     entrypoint: /bin/sh
