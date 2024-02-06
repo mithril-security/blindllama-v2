@@ -4,7 +4,10 @@ set -eux
 
 # Need to install
 # TODO build an image with the required dependency
-apk add --no-cache bash
+apk add --no-cache bash git-lfs
+
+# Need to download LFS artifact in the repo
+git lfs pull
 
 /usr/bin/earthly-entrypoint.sh || true
 
