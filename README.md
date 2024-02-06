@@ -33,7 +33,7 @@ To run this example, you will need to use a VM with a GPU such as Standard_NC24a
 
 The code requires python 3.11 or later.
 You will also need to install git lfs, which can be done with:
-```
+```console
 apt-get update && apt-get install git-lfs -y --no-install-recommends
 git lfs install
 
@@ -52,18 +52,18 @@ Any changes to the disk will alter the root hash and, therefore, be detected.
 ### A - Model weights
 
 Triton with TensorRT requires the creation of a model engine that has the weights embedded in it. The following script will generate a model engine for Llama 2 7b.
-```
+```console
 ./launch_container_create_model_engine.sh "Llama-2-7b-hf"
 ```
 To create a model engine for GPT2-medium, use:
-```
+```console
 ./launch_container_create_model_engine.sh "gpt2-medium"
 ```
 Note: The model engines are specific to the GPU they are generated on. If you use an A100 GPU to create the model engine, you must run the BlindLlama-v2 VM on a machine with an A100 GPU.
 
 **By default, the engine generated uses 1 engine. To create the model engine according to your specifications, you may change the create_engine.sh script present at tritonRT/create_engine.sh before creating the model engine.**
 
-```
+```console
 python /tensorrtllm_backend/tensorrt_llm/examples/llama/build.py --model_dir /$1/ \
                 --dtype bfloat16 \
                 --use_gpt_attention_plugin bfloat16 \
@@ -78,18 +78,18 @@ python /tensorrtllm_backend/tensorrt_llm/examples/llama/build.py --model_dir /$1
 ### B - Production mode:
 This will create an OS image in production mode with no means of access to the image. The only point of access is the ingress controller and the endpoints it serves. There is no shell access, SSH, etc.
 
-```
+```console
 earthly -i -P +mithril-os --OS_CONFIG='config.yaml'
 ```
 
 ### C - Application disk
 This command will create an application disk with the Llama 2 7B model engine (generated earlier) included in it.
 
-```
+```console
 earthly -i -P +blindllamav2-appdisk --MODEL="Llama-2-7b-hf"
 ```
 To create an application disk with GPT2-medium use:
-```
+```console
 earthly -i -P +blindllamav2-appdisk --MODEL="gpt2-medium"
 ```
 
@@ -105,11 +105,11 @@ The network policy file can be found in the annex.
 Once the disks are created, we can generate the measurements of the disks. These measurements will be used by the client to verify the server.
 
 Here is how to generate the measurements of the OS disk.
-```
+```console
 ./scripts/generate_expected_measurements_files.py
 ```
 The measurement file contains the PCR values of the OS. A sample measurement file is as follows:
-```
+```json
 {
     "measurements": {
         "0": "f3a7e99a5f819a034386bce753a48a73cfdaa0bea0ecfc124bedbf5a8c4799be",
@@ -129,13 +129,13 @@ PCR 4 measures the UKI (initrd, kernel image, and boot stub)
 PCR 12 and 13 measure the kernel command line and system extensions. We do not want any of those to be enabled, so we ensure they are 0s.
 
 Here is how to generate the root hash of the application disk.
-```
+```console
 ./scripts/generate_security_config.py
 ```
 The application disk is simply a data disk. Therefore, the only measurement we need is a measurement of everything stored on the disk. The root hash is calculated using dm-verity. It is independent of the OS disk and the OS disk measurement.
 
 A sample root hash is as follows:
-```
+```json
 {
     "application_disk_roothash": "89ca5b62df40df834b8f7a17ce2cce72247cebbb87b80d220845ec583470605f"
 }
@@ -146,7 +146,7 @@ This root hash represents the full stack we expect to measure, from the Mithril 
 We can now deploy the image on the appropriate Azure VM.
 
 Here are some deployment requirements: 
-```
+```console
 # qemu-utils to resize disk to conform to azure disk specifications
 sudo apt-get install qemu-utils
 # Azure CLI
@@ -156,14 +156,14 @@ https://aka.ms/downloadazcopy-v10-linux
 ```
 
 Edit upload_config.sh with your Azure resource group and region where you want the disk to be created.
-```
+```sh
 ### Replace with your values
 AZ_RESOURCE_GROUP="my-resource-group"
 AZ_REGION="myregion"
 ### End
 ```
 Run the following script to upload the disks and create a VM.
-```
+```console
 ./upload.sh
 ```
 This script uploads the disks, creates a VM, adds DNS entries in the local machine’s /etc/hosts file, and creates a network rule in the Azure firewall to allow HTTPS requests into the VM. Note that these network rules are regular network rules. The network isolation policies to ensure data does not leave the enclaves are of the OS and k3s.
@@ -181,7 +181,7 @@ This whole process is also known as attested TLS.
 
 ### A - Installation
 The client may be installed with pip.
-```
+```console
 apt install tpm2-tools
 cd client/client
 pip install .
@@ -274,7 +274,7 @@ Similarly for k3s we set rules to allow incoming traffic only to the ingress con
 Rules are also in place to allow traffic from the reverse proxy to the appropriate container (either blindllamav2 or the attestation server).
 
 These rules are as follows:
-```
+```yaml
 apiVersion: networking.k8s.io/v1
 kind: NetworkPolicy
 metadata:
