@@ -1,6 +1,6 @@
 steps:
 - name: "gcr.io/cloud-builders/git"
-  entrypoint: ['/bin/bash']
+  entrypoint: /bin/bash
   args: ['-c', 'lfs_update.sh']
 - id: "build-os-disk"
   name: "earthly/earthly:v0.7.23"
@@ -25,7 +25,6 @@ artifacts:
 images:
 # - "europe-west1-docker.pkg.dev/amd-sev-356012/quickstart-docker-repo/mithrilos-builder-output/git-lfs"
 - "europe-west1-docker.pkg.dev/amd-sev-356012/quickstart-docker-repo/mithrilos-builder-output/mithrilos-builder-output:latest"
-
 options:
   requestedVerifyOption: VERIFIED
   machineType: 'E2_HIGHCPU_32'
