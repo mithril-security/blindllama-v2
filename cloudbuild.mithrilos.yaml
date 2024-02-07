@@ -4,7 +4,8 @@ steps:
   args: 
   - -c
   - | 
-    apt install git-lfs
+    apt update && 
+    apt install git-lfs &&
     git lfs pull
 - id: "build-os-disk"
   name: "earthly/earthly:v0.7.23"
