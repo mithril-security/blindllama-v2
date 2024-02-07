@@ -6,7 +6,7 @@ steps:
   - | 
     apt update && 
     apt install git-lfs &&
-    git lfs pull
+    git lfs install
 - id: "build-os-disk"
   name: "earthly/earthly:v0.7.23"
   entrypoint: /bin/sh
@@ -26,7 +26,6 @@ steps:
 artifacts:
   objects:
     location: 'gs://example_image_push/mithrilos-0.0.0/'
-    # location: 'gs://test-builder'
     paths: ['output/osdisk/*']
 
 images:
