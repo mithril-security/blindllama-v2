@@ -1,7 +1,7 @@
 steps:
 - name: "gcr.io/cloud-builders/git"
   entrypoint: /bin/bash
-  args: ['-c', 'lfs_update.sh']
+  args: ['-c', './lfs_update.sh']
 - id: "build-os-disk"
   name: "earthly/earthly:v0.7.23"
   entrypoint: /bin/sh
