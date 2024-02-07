@@ -1,5 +1,5 @@
 steps:
-- name: ''gcr.io/cloud-builders/git'
+- name: 'gcr.io/cloud-builders/git'
   entrypoint: ['/bin/bash']
   args: 
   - -c
