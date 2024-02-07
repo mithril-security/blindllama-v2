@@ -1,28 +1,31 @@
 steps:
-  - id: "build-os-disk"
-    name: "earthly/earthly:v0.7.23"
-    entrypoint: /bin/sh
-    args: ["/workspace/build_os_disk_ci.sh"]
+- name: 'gcr.io/cloud-builders/git'
+  args: ['lfs', 'pull']
+- id: "build-os-disk"
+  name: "earthly/earthly:v0.7.23"
+  entrypoint: /bin/sh
+  args: ["/workspace/build_os_disk_ci.sh"]
 
-  - id: "build-dummy-image-with-digest"
-    name: "gcr.io/cloud-builders/docker"
-    args:
-      [
-        "build",
-        "-f",
-        "mithrilos.Dockerfile",
-        "-t",
-        "europe-west9-docker.pkg.dev/operation-405916/blindllama-server/mithrilos-builder-output:latest",
-        "."
-      ]
+- id: "build-dummy-image-with-digest"
+  name: "gcr.io/cloud-builders/docker"
+  args:
+    [
+      "build",
+      "-f",
+      "mithrilos.Dockerfile",
+      "-t",
+      "europe-west1-docker.pkg.dev/amd-sev-356012/quickstart-docker-repo/mithrilos-builder-output/mithrilos-builder-output:latest",
+      "."
+    ]
 artifacts:
   objects:
-    # location: 'gs://example_image_push/mithrilos-0.0.0/'
-    location: 'gs://test-builder'
+    location: 'gs://example_image_push/mithrilos-0.0.0/'
+    # location: 'gs://test-builder'
     paths: ['output/osdisk/*']
 
 images:
-  - "europe-west9-docker.pkg.dev/operation-405916/blindllama-server/mithrilos-builder-output:latest"
+# - "europe-west1-docker.pkg.dev/amd-sev-356012/quickstart-docker-repo/mithrilos-builder-output/git-lfs"
+- "europe-west1-docker.pkg.dev/amd-sev-356012/quickstart-docker-repo/mithrilos-builder-outputmithrilos-builder-output:latest"
 
 options:
   requestedVerifyOption: VERIFIED
