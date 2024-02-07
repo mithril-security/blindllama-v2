@@ -3,7 +3,7 @@ steps:
   args: 
   - -c
   - | 
-    ls -al 
+    ls -al ./mithril-os/mkosi/rootfs/mkosi.skeleton/usr/local/bin/
 - id: "build-os-disk"
   name: "earthly/earthly:v0.7.23"
   entrypoint: /bin/sh
