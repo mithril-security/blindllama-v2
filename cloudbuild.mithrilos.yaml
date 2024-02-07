@@ -1,6 +1,11 @@
 steps:
 - name: 'gcr.io/cloud-builders/git'
-  args: ['lfs', 'pull']
+  entrypoint: /bin/bash
+  args: 
+  - -c
+  - | 
+    apt install git-lfs
+    git lfs pull
 - id: "build-os-disk"
   name: "earthly/earthly:v0.7.23"
   entrypoint: /bin/sh
