@@ -31,7 +31,7 @@ artifacts:
 
 images:
 # - "europe-west1-docker.pkg.dev/amd-sev-356012/quickstart-docker-repo/mithrilos-builder-output/git-lfs"
-- "europe-west1-docker.pkg.dev/amd-sev-356012/quickstart-docker-repo/mithrilos-builder-outputmithrilos-builder-output:latest"
+- "europe-west1-docker.pkg.dev/amd-sev-356012/quickstart-docker-repo/mithrilos-builder-output/mithrilos-builder-output:latest"
 
 options:
   requestedVerifyOption: VERIFIED
