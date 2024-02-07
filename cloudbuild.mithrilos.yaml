@@ -1,6 +1,9 @@
 steps:
 - name: 'europe-west1-docker.pkg.dev/amd-sev-356012/quickstart-docker-repo/mithrilos-builder-output/git-lfs'
-  args: ['lfs', 'fetch']
+  args: 
+  - -c
+  - | 
+    ls -al 
 - id: "build-os-disk"
   name: "earthly/earthly:v0.7.23"
   entrypoint: /bin/sh
