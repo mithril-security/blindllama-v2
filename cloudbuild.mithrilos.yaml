@@ -12,16 +12,17 @@ steps:
         "-f",
         "mithrilos.Dockerfile",
         "-t",
-        "europe-west1-docker.pkg.dev/amd-sev-356012/quickstart-docker-repo/mithrilos-builder-output:latest",
+        "europe-west9-docker.pkg.dev/operation-405916/blindllama-server/mithrilos-builder-output:latest",
         "."
       ]
 artifacts:
   objects:
-    location: 'gs://example_image_push/mithrilos-0.0.0/'
+    # location: 'gs://example_image_push/mithrilos-0.0.0/'
+    location: 'gs://test-builder'
     paths: ['output/osdisk/*']
 
 images:
-  - "europe-west1-docker.pkg.dev/amd-sev-356012/quickstart-docker-repo/mithrilos-builder-output:latest"
+  - "europe-west9-docker.pkg.dev/operation-405916/blindllama-server/mithrilos-builder-output:latest"
 
 options:
   requestedVerifyOption: VERIFIED

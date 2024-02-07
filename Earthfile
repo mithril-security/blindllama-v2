@@ -110,8 +110,8 @@ mithril-os-ci:
     
     RUN --privileged /root/.local/bin/mkosi
 
-    SAVE ARTIFACT image AS LOCAL local/initrd_image.cpio.zst
-    SAVE ARTIFACT image.manifest AS LOCAL local/initrd.manifest
+    SAVE ARTIFACT image AS LOCAL output/osdisk/initrd_image.cpio.zst
+    SAVE ARTIFACT image.manifest AS LOCAL output/osdisk/initrd.manifest
 
     # RUN --privileged error
 
