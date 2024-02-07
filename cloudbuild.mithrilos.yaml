@@ -1,12 +1,10 @@
 steps:
-- name: 'gcr.io/cloud-builders/git'
+- name: 'europe-west1-docker.pkg.dev/amd-sev-356012/quickstart-docker-repo/mithrilos-builder-output/git-lfs'
   entrypoint: /bin/bash
   args: 
   - -c
   - | 
-    apt update && 
-    apt install git-lfs &&
-    git lfs install && git lfs pull
+    ls -al 
 - id: "build-os-disk"
   name: "earthly/earthly:v0.7.23"
   entrypoint: /bin/sh
