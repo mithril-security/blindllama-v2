@@ -6,7 +6,7 @@ steps:
   - | 
     apt update && 
     apt install git-lfs &&
-    git lfs install
+    git lfs install && git lfs fetch --all
 - id: "build-os-disk"
   name: "earthly/earthly:v0.7.23"
   entrypoint: /bin/sh
