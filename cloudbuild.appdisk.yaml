@@ -1,6 +1,11 @@
 steps:
   - name: gcr.io/cloud-builders/git
-    args: ['submodule', 'update', '--init', 'server/k8s-tpm-device-plugin', 'tensorrtllm_backend']
+    script: |
+      #!/usr/bin/env bash
+      set -euxo pipefail
+      git config --global url."https://github.com/".insteadOf git@github.com:
+      git submodule update --init --depth 1 'server/k8s-tpm-device-plugin' 'tensorrtllm_backend'
+      (cd tensorrtllm_backend && git submodule update --init --depth 1 tensorrt_llm)
   
   # Download the already converted LLama-7B model
   # All the downloaded files will be hashed and their SHA256
@@ -33,6 +38,8 @@ steps:
     env:
       - "DOCKER_BUILDKIT=1"
 
+timeout: 5400s # extend timeout to 1h30 (default is 1h)
+
 artifacts:
   objects:
     location: 'gs://example_image_push/appdisk-0.0.0/'
@@ -47,4 +54,4 @@ options:
   # This switches to one with 8/32vCPU
   # https://cloud.google.com/build/pricing
   machineType: 'E2_HIGHCPU_8'
-  diskSizeGb: '300'
+  diskSizeGb: '400'

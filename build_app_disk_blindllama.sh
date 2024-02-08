@@ -23,7 +23,8 @@ mkdir -p output/inputs
 ( cd "prepared_model" && find "." -type f -exec sha256sum {} \; ) > output/inputs/PREPARED_MODEL.SHA256SUMS
 
 cp -al prepared_model/model $tmpdir/disk/
-cp -al prepared_model/engines $tmpdir/disk/
+mkdir -p $tmpdir/disk/engines/Llama-2-7b-hf
+cp -al prepared_model/engines/. $tmpdir/disk/engines/Llama-2-7b-hf
 
 echo "Finished copying model"
 

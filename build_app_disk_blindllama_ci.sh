@@ -32,6 +32,20 @@ docker pull nvcr.io/nvidia/tritonserver:23.10-trtllm-python-py3
 ./export_docker_image_as_tar.sh nvcr.io/nvidia/tritonserver:23.10-trtllm-python-py3 images/blindllama
 
 
+# TODO: Temporary
+# Because the Triton image from Nvidia does not contain
+# up-to-date version of libnvinfer tensorrt llm plugin
+# We need to build it indepently and replace the original with ours
+# Note : To have transparent build we'll have to build
+# this library during the build, instead of just blindly copying 
+# the library. 
+mkdir -p tensorrtllm_backend/tensorrt_llm/cpp/build/tensorrt_llm/plugins/
+mv prepared_model/libnvinfer_plugin_tensorrt_llm.so.9.1.0  tensorrtllm_backend/tensorrt_llm/cpp/build/tensorrt_llm/plugins/libnvinfer_plugin_tensorrt_llm.so.9.1.0
+( cd tensorrtllm_backend/tensorrt_llm/cpp/build/tensorrt_llm/plugins/ \
+  && ln -s libnvinfer_plugin_tensorrt_llm.so.9.1.0 libnvinfer_plugin_tensorrt_llm.so.9 \
+  && ln -s libnvinfer_plugin_tensorrt_llm.so.9.1.0 libnvinfer_plugin_tensorrt_llm.so )
+## END TODO
+
 earthly -a +blindllamav2-appdisk-without-images/ --MODEL='Llama-2-7b-hf' .tmp/blindllama-disk
 
 bash build_app_disk_blindllama.sh

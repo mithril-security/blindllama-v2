@@ -9,7 +9,7 @@ apk add --no-cache bash
 /usr/bin/earthly-entrypoint.sh || true
 
 mkdir -p output/osdisk
-earthly -P +mithril-os-ci --OS_CONFIG='config.yaml'
+earthly -P +mithril-os-ci --OS_CONFIG='config.debug.yaml'
 
 directory="output/osdisk"
 

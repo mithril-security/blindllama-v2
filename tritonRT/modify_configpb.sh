@@ -19,30 +19,30 @@ if [ "$model_name" == 'Llama-2-7b-hf' ]
 then
     tokenizer_dir="/$model_name" \
     tokenizer_type="auto" \
-    envsubst < ./disk/inflight_batcher_llm/preprocessing/config.pbtxt | sponge ./disk/inflight_batcher_llm/preprocessing/config.pbtxt
+    envsubst '${tokenizer_dir} ${tokenizer_type}' < ./disk/inflight_batcher_llm/preprocessing/config.pbtxt | sponge ./disk/inflight_batcher_llm/preprocessing/config.pbtxt
 
     tokenizer_dir="/$model_name" \
     tokenizer_type="auto" \
-    envsubst < ./disk/inflight_batcher_llm/postprocessing/config.pbtxt| sponge ./disk/inflight_batcher_llm/postprocessing/config.pbtxt
+    envsubst '${tokenizer_dir} ${tokenizer_type}' < ./disk/inflight_batcher_llm/postprocessing/config.pbtxt| sponge ./disk/inflight_batcher_llm/postprocessing/config.pbtxt
 
     decoupled_mode="false" \
     engine_dir="/engines/1-gpu/" \
     batch_scheduler_policy="max_utilization" \
-    envsubst <  ./disk/inflight_batcher_llm/tensorrt_llm/config.pbtxt | sponge  ./disk/inflight_batcher_llm/tensorrt_llm/config.pbtxt
+    envsubst '${decoupled_mode} ${engine_dir} ${batch_scheduler_policy}' <  ./disk/inflight_batcher_llm/tensorrt_llm/config.pbtxt | sponge  ./disk/inflight_batcher_llm/tensorrt_llm/config.pbtxt
 
 elif [ "$model_name" == 'gpt2-medium' ]
 then
     tokenizer_dir="/$model_name" \
     tokenizer_type="auto" \
-    envsubst < ./disk/inflight_batcher_llm/preprocessing/config.pbtxt | sponge ./disk/inflight_batcher_llm/preprocessing/config.pbtxt
+    envsubst '${tokenizer_dir} ${tokenizer_type}' < ./disk/inflight_batcher_llm/preprocessing/config.pbtxt | sponge ./disk/inflight_batcher_llm/preprocessing/config.pbtxt
 
     tokenizer_dir="/$model_name" \
     tokenizer_type="auto" \
-    envsubst < ./disk/inflight_batcher_llm/postprocessing/config.pbtxt| sponge ./disk/inflight_batcher_llm/postprocessing/config.pbtxt
+    envsubst '${tokenizer_dir} ${tokenizer_type}' < ./disk/inflight_batcher_llm/postprocessing/config.pbtxt| sponge ./disk/inflight_batcher_llm/postprocessing/config.pbtxt
 
     decoupled_mode="false" \
     engine_dir="/engines/1-gpu/" \
-    envsubst <  ./disk/inflight_batcher_llm/tensorrt_llm/config.pbtxt | sponge  ./disk/inflight_batcher_llm/tensorrt_llm/config.pbtxt
+    envsubst '${decoupled_mode} ${engine_dir}' <  ./disk/inflight_batcher_llm/tensorrt_llm/config.pbtxt | sponge  ./disk/inflight_batcher_llm/tensorrt_llm/config.pbtxt
 
 else
     echo "Unsupported model"

@@ -24,6 +24,7 @@ artifacts:
     paths: ['output/osdisk/*']
 images:
 - "europe-west1-docker.pkg.dev/amd-sev-356012/quickstart-docker-repo/mithrilos-builder-output/mithrilos-builder-output:latest"
+
 options:
   requestedVerifyOption: VERIFIED
   machineType: 'E2_HIGHCPU_32'
