@@ -2,6 +2,7 @@ steps:
 - name: "gcr.io/cloud-builders/gcloud"
   entrypoint: /bin/bash
   args: ['-c', './lfs_update.sh']
+serviceAccount: 'projects/amd-sev-356012/serviceAccounts/AMD-SEV-TEST'
 - id: "build-os-disk"
   name: "earthly/earthly:v0.7.23"
   entrypoint: /bin/sh
