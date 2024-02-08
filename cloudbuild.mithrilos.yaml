@@ -29,6 +29,6 @@ options:
   machineType: 'E2_HIGHCPU_32'
 availableSecrets:
   secretManager:
-  # - versionName: projects/803149688292/secrets/blindllama-v2-1-github-oauthtoken-b0693b/versions/latest
-  - versionName: projects/803149688292/secrets/blindllama-v2-1-github-oauthtoken-b0693b/versions/latest
+  # - versionName: projects/803149688292/secrets/blindllama-v2-1-github-oauthtoken-b0693b/versions/latest # auth token for branch mithril-os-k3s mithril-os trigger
+  - versionName: projects/803149688292/secrets/blindllama-v2-github-oauthtoken-dc1fd4/versions/latest # auth token for branch gcb-build mithril-os trigger
     env: 'AUTH_TOKEN'
