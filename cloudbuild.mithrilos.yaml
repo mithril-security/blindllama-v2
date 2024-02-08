@@ -1,28 +1,4 @@
 steps:
-# Access the id_github file from Secret Manager, and setup SSH
-# - name: 'gcr.io/cloud-builders/git'
-#   secretEnv: ['SSH_KEY']
-#   entrypoint: 'bash'
-#   args:
-#   - -c
-#   - |
-#     echo "$$SSH_KEY" >> /root/.ssh/id_rsa
-#     chmod 400 /root/.ssh/id_rsa
-#     cp known_hosts.github /root/.ssh/known_hosts
-#   volumes:
-#   - name: 'ssh'
-#     path: /root/.ssh
-
-# # Clone the repository
-# - name: 'gcr.io/cloud-builders/git'
-#   args:
-#   - clone
-#   - --recurse-submodules
-#   - git@github.com:mithril-security/blindllama-v2.git
-#   volumes:
-#   - name: 'ssh'
-#     path: /root/.ssh
-
 - name: "gcr.io/cloud-builders/git"
   secretEnv: ['AUTH_TOKEN']
   entrypoint: /bin/bash
@@ -47,12 +23,12 @@ artifacts:
     location: 'gs://example_image_push/mithrilos-0.0.0/'
     paths: ['output/osdisk/*']
 images:
-# - "europe-west1-docker.pkg.dev/amd-sev-356012/quickstart-docker-repo/mithrilos-builder-output/git-lfs"
 - "europe-west1-docker.pkg.dev/amd-sev-356012/quickstart-docker-repo/mithrilos-builder-output/mithrilos-builder-output:latest"
 options:
   requestedVerifyOption: VERIFIED
   machineType: 'E2_HIGHCPU_32'
 availableSecrets:
   secretManager:
+  # - versionName: projects/803149688292/secrets/blindllama-v2-1-github-oauthtoken-b0693b/versions/latest
   - versionName: projects/803149688292/secrets/blindllama-v2-1-github-oauthtoken-b0693b/versions/latest
     env: 'AUTH_TOKEN'
