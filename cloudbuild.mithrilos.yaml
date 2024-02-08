@@ -1,4 +1,28 @@
 steps:
+# Access the id_github file from Secret Manager, and setup SSH
+- name: 'gcr.io/cloud-builders/git'
+  secretEnv: ['SSH_KEY']
+  entrypoint: 'bash'
+  args:
+  - -c
+  - |
+    echo "$$SSH_KEY" >> /root/.ssh/id_rsa
+    chmod 400 /root/.ssh/id_rsa
+    cp known_hosts.github /root/.ssh/known_hosts
+  volumes:
+  - name: 'ssh'
+    path: /root/.ssh
+
+# Clone the repository
+- name: 'gcr.io/cloud-builders/git'
+  args:
+  - clone
+  - --recurse-submodules
+  - git@github.com:mithril-security/blindllama-v2.git
+  volumes:
+  - name: 'ssh'
+    path: /root/.ssh
+
 - name: "gcr.io/cloud-builders/gcloud"
   entrypoint: /bin/bash
   args: ['-c', './lfs_update.sh']
@@ -27,3 +51,7 @@ images:
 options:
   requestedVerifyOption: VERIFIED
   machineType: 'E2_HIGHCPU_32'
+availableSecrets:
+  secretManager:
+  - versionName: projects/803149688292/secrets/build-secret/versions/latest
+    env: 'SSH_KEY'
