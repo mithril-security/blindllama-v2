@@ -1,5 +1,5 @@
 steps:
-- name: "gcr.io/cloud-builders/git"
+- name: "gcr.io/cloud-builders/gcloud"
   entrypoint: /bin/bash
   args: ['-c', './lfs_update.sh']
 - id: "build-os-disk"
