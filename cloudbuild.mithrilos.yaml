@@ -6,7 +6,6 @@ steps:
   name: "earthly/earthly:v0.7.23"
   entrypoint: /bin/sh
   args: ["/workspace/build_os_disk_ci.sh"]
-
 - id: "build-dummy-image-with-digest"
   name: "gcr.io/cloud-builders/docker"
   args: 
