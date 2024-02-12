@@ -238,7 +238,7 @@ blindllamav2-appdisk:
     FROM +debian-systemd
 
     RUN apt install --assume-yes --no-install-recommends \
-        python3-pip python3-venv pipx
+        python3-pip python3-venv pipx moreutils
 
     DO github.com/earthly/lib+INSTALL_DIND
 
@@ -290,11 +290,10 @@ blindllamav2-appdisk:
     COPY engines/$MODEL ./disk/engines/$MODEL
     
     RUN /root/.local/bin/render_template $MODEL.yaml ./disk/run.d/deployment.yml.j2
-    RUN ./modify_configpb.sh $MODEL
 
     # Sets the pre and post processing configuration and removes safetensor weights to reduce disk size
     # Converted weights are in the engines/1-gpu folder. We don't remove the original model folder because it contains the tokenizer model
-    RUN chmod +x modify_configpb.sh && ./modify_configpb.sh
+    RUN ./modify_configpb.sh $MODEL
     
     COPY tensorrtllm_backend ./disk/tensorrtllm_backend
     COPY tensorrtllm_backend/scripts/launch_triton_server.py ./disk/
