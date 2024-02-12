@@ -17,11 +17,11 @@ model_name="$1"
 
 if [ "$model_name" == 'Llama-2-7b-hf' ]
 then
-    tokenizer_dir="$model_name" \
+    tokenizer_dir="/$model_name" \
     tokenizer_type="auto" \
     envsubst < ./disk/inflight_batcher_llm/preprocessing/config.pbtxt | sponge ./disk/inflight_batcher_llm/preprocessing/config.pbtxt
 
-    tokenizer_dir="$model_name" \
+    tokenizer_dir="/$model_name" \
     tokenizer_type="auto" \
     envsubst < ./disk/inflight_batcher_llm/postprocessing/config.pbtxt| sponge ./disk/inflight_batcher_llm/postprocessing/config.pbtxt
 
@@ -32,11 +32,11 @@ then
 
 elif [ "$model_name" == 'gpt2-medium' ]
 then
-    tokenizer_dir="$model_name" \
+    tokenizer_dir="/$model_name" \
     tokenizer_type="auto" \
     envsubst < ./disk/inflight_batcher_llm/preprocessing/config.pbtxt | sponge ./disk/inflight_batcher_llm/preprocessing/config.pbtxt
 
-    tokenizer_dir="$model_name" \
+    tokenizer_dir="/$model_name" \
     tokenizer_type="auto" \
     envsubst < ./disk/inflight_batcher_llm/postprocessing/config.pbtxt| sponge ./disk/inflight_batcher_llm/postprocessing/config.pbtxt
 
