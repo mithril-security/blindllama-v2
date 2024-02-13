@@ -18,6 +18,9 @@ steps:
       "europe-west1-docker.pkg.dev/amd-sev-356012/quickstart-docker-repo/mithrilos-builder-output/mithrilos-builder-output:latest",
       "."
     ]
+  env:
+    - "DOCKER_BUILDKIT=1"
+    
 artifacts:
   objects:
     location: 'gs://example_image_push/mithrilos-0.0.0/'

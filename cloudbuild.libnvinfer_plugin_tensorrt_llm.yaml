@@ -1,0 +1,57 @@
+steps:
+  - name: gcr.io/cloud-builders/git
+    script: |
+      #!/usr/bin/env bash
+
+      set -euxo pipefail
+
+      apt-get update -y && apt-get install git-lfs -y --no-install-recommends
+      git lfs install
+
+      git config --global url."https://github.com/".insteadOf git@github.com:
+
+      git submodule update --depth=1 --init tensorrtllm_backend
+      cd tensorrtllm_backend
+      git submodule update --depth=1 --init --recursive
+
+  - name: gcr.io/cloud-builders/docker
+    entrypoint: bash
+    args: ["build_libnvinfer_plugin_tensorrt_llm.sh"]
+
+  - name: ubuntu
+    script: |
+      #!/usr/bin/env bash
+
+      set -euxo pipefail 
+
+      directory="tensorrtllm_backend/tensorrt_llm/cpp/build/tensorrt_llm/plugins/"
+      mkdir output
+      ( cd $directory && find "." -type f -exec sha256sum {} \; ) > output/DIGEST
+
+  - id: "build-dummy-image-with-digest"
+    name: "gcr.io/cloud-builders/docker"
+    args:
+      [
+        "build",
+        "-f",
+        "libnvinfer.Dockerfile",
+        "-t",
+        "europe-west1-docker.pkg.dev/amd-sev-356012/quickstart-docker-repo/blindllama-v2-libnvinfer_plugin_tensorrt_llm:0.0.0",
+        ".",
+      ]
+    env:
+      - "DOCKER_BUILDKIT=1"
+
+timeout: 10800s # 3hours instead of the default of 1h TODO: reevaluate based on first run
+
+artifacts:
+  objects:
+    location: "gs://example_image_push/libnvinfer_plugin_tensorrt_llm-0.0.0/"
+    paths: ["tensorrtllm_backend/tensorrt_llm/cpp/build/tensorrt_llm/plugins/*.so"]
+
+images:
+  - "europe-west1-docker.pkg.dev/amd-sev-356012/quickstart-docker-repo/blindllama-v2-libnvinfer_plugin_tensorrt_llm:0.0.0"
+
+options:
+  requestedVerifyOption: VERIFIED
+  machineType: "E2_HIGHCPU_32"
