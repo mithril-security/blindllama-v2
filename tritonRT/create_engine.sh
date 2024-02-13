@@ -28,7 +28,7 @@ then
                     --world_size 1
 elif [ $1 == 'gpt2-medium' ]
 then
-    python /tensorrtllm_backend/tensorrt_llm/examples/gpt/hf_gpt_convert.py -p 8 -i gpt2-medium -o ./c-model/gpt2 --tensor-parallelism 1 --storage-type float16
+    python /tensorrtllm_backend/tensorrt_llm/examples/gpt/hf_gpt_convert.py -p 8 -i /$1 -o ./c-model/gpt2 --tensor-parallelism 1 --storage-type float16
     python /tensorrtllm_backend/tensorrt_llm/examples/gpt/build.py --model_dir=./c-model/gpt2/1-gpu/ \
                  --world_size=1 \
                  --dtype float16 \
