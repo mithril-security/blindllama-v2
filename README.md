@@ -1,5 +1,8 @@
 # Quick tour for BlindLlama-v2 OpenAI
 
+
+> :warning: **This is a prototype**
+
 ## Introduction
 
 BlindLlama-v2 is a framework for serving Kubernetes-based applications on verifiable and isolated environments called enclaves and deploying them on Cloud VMs equipped with GPUs and vTPMs.
