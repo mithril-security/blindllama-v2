@@ -37,7 +37,7 @@ To run this example, you will need to use a VM with a GPU such as Standard_NC24a
 The code requires python 3.11 or later.
 You will also need to install git lfs, which can be done with:
 ```console
-apt-get update && apt-get install git-lfs -y --no-install-recommends
+apt-get update && apt-get install git-lfs pesign -y --no-install-recommends
 git lfs install
 
 git submodule update --init --recursive
