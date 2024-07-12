@@ -23,7 +23,7 @@ golden_pcr4_azure = compute_golden_pcr4("local/os_disk.raw",target= Target.AZURE
 golden_measurements_azure = {
     'measurements':
         {
-            0: "f3a7e99a5f819a034386bce753a48a73cfdaa0bea0ecfc124bedbf5a8c4799be",
+            0: "dc42536dcf924032df364a8f09078aab75c67a17038c6dcab9e900861bc800d6",
             1: "3d458cfe55cc03ea1f443f1562beec8df51c75e14a9fcf9a7234a13f198e7969",
             2: "3d458cfe55cc03ea1f443f1562beec8df51c75e14a9fcf9a7234a13f198e7969",
             3: "3d458cfe55cc03ea1f443f1562beec8df51c75e14a9fcf9a7234a13f198e7969",
