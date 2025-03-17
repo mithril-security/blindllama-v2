@@ -36,10 +36,8 @@ Packages=linux-image-cloud-amd64
          # }         
          # Note: when testing you might want to disable nvidia driver to speed up the build
         {% if nvidiaDriver %}
-         nvidia-driver
-         nvidia-smi
-         nvidia-container-toolkit
          cuda-drivers
+         nvidia-container-toolkit
         {% endif %}
 
         {% if debug %}
