@@ -6,7 +6,7 @@ apt-get update
 apt-get build-dep --assume-yes --no-install-recommends systemd
 apt-get install --assume-yes --no-install-recommends libfdisk-dev libtss2-dev
 
-git clone https://github.com/systemd/systemd --depth=1
+git clone https://github.com/systemd/systemd --branch v256.4 --depth=1
 meson setup systemd/build systemd \
   -D repart=true \
   -D efi=true \
