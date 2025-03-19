@@ -28,7 +28,7 @@ upload_disk () {
         --security-type TrustedLaunch \
         --hyper-v-generation V2
 
-    URL_ACCESS_SAS=`az disk grant-access -n $DISK_NAME -g $AZ_RESOURCE_GROUP --access-level Write --duration-in-seconds 86400 | jq -r '.accessSas'`
+    URL_ACCESS_SAS=`az disk grant-access -n $DISK_NAME -g $AZ_RESOURCE_GROUP --access-level Write --duration-in-seconds 86400 | jq -r '.accessSAS'`
     azcopy copy --blob-type PageBlob "local/$1.img.vhd" "$URL_ACCESS_SAS"
     az disk revoke-access -n $DISK_NAME -g $AZ_RESOURCE_GROUP
 }
