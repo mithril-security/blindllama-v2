@@ -71,7 +71,7 @@ def compute_authenticode_hash_efi(path: str):
     try:
         command = ["pesign", "--hash", "-d", "sha256", "-i", path]
         output = subprocess.check_output(command, stderr=subprocess.PIPE).decode()
-        hash_match = re.search(r'hash: (\w+)', output)
+        hash_match = re.search(r'(\w+)', output)
         if not hash_match:
             raise RuntimeError(f"Could not parse output of pesign tool\n{output}")
         
